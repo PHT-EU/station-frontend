@@ -15,12 +15,15 @@
 
     <div id="navbarBasicExample" class="navbar-menu">
       <div class="navbar-start">
-        <a class="navbar-item">
+        <router-link to="/trains" class="navbar-item">
           Trains
-        </a>
-        <a class="navbar-item">
+        </router-link>
+        <router-link to="/data" class="navbar-item">
           Data
-        </a>
+        </router-link>
+        <router-link to="/about" class="navbar-item">
+          About
+        </router-link>
 
       </div>
 

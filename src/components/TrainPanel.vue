@@ -11,6 +11,7 @@
                 id="refreshButton"
                 class="btn button is-info is-small is-outlined"
                 @click="buttonEvent('refresh')"
+                onmouseleave="this.blur()"
             >
               <i class="fas fa-sync"></i>
             </button>
@@ -63,7 +64,6 @@ export default {
       let trains = [];
       if (this.dockerTrains.length >= 1) {
         for (let i = 0; i < this.dockerTrains.length; i++) {
-          console.log(this.dockerTrains[i])
           trains.push({
                 trainId: this.dockerTrains[i].train_id,
                 type: "docker",
@@ -75,7 +75,6 @@ export default {
       }
       if (this.federatedTrains.length >= 1){
         for (let i = 0; i < this.federatedTrains.length; i++) {
-          console.log(this.federatedTrains[i])
           trains.push({
                 trainId: this.federatedTrains[i].train_id,
                 type: "federated",
