@@ -27,10 +27,22 @@
         </p>
       </div>
       <p class="panel-tabs">
-        <a class="is-active">All</a>
-        <a>Active</a>
-        <a>Docker</a>
-        <a>Federated</a>
+        <a v-bind:class="{'is-active': noFilter}">All</a>
+        <a
+            v-on:click="panelFilterClick('active')"
+            v-bind:class="{'is-active': filterActive}">
+          Active
+        </a>
+        <a
+            v-on:click="panelFilterClick('docker')"
+            v-bind:class="{'is-active': filterDocker}">
+          Docker
+        </a>
+        <a
+            v-on:click="panelFilterClick('federated')"
+            v-bind:class="{'is-active': filterFederated}">
+          Federated
+        </a>
       </p>
       <div v-for="train in trains" v-bind:key="train.train_id" class="panel-block">
 
@@ -43,7 +55,7 @@
       </div>
 
       <div class="panel-block">
-        <button class="button is-link is-outlined is-fullwidth">
+        <button class="button is-link is-outlined is-fullwidth" v-on:click="panelFilterClick('reset')">
           Reset all filters
         </button>
       </div>
@@ -84,6 +96,25 @@ export default {
         }
 
       }
+      if (this.filterActive){
+        trains = trains.filter((el) => el.active);
+        if (this.filterDocker){
+          return trains.filter((el) => el.type === "docker")
+        }
+        if (this.filterFederated){
+          return trains.filter((el) => el.type === "federated")
+        }
+      }
+      else {
+        if (this.filterDocker){
+          return trains.filter((el) => el.type === "docker")
+        }
+        if (this.filterFederated){
+          return trains.filter((el) => el.type === "federated")
+        }
+      }
+
+
       return trains
 
     }
@@ -93,12 +124,35 @@ export default {
       filterActive: false,
       filterDocker: false,
       filterFederated: false,
+      noFilter: true
     }
   },
   methods: {
     buttonEvent(event) {
       this.$emit(event);
 
+    },
+    panelFilterClick(filter) {
+      if (filter === "active"){
+        this.filterActive = !this.filterActive;
+        this.noFilter = false;
+      }
+      if (filter === "docker"){
+        this.filterDocker = !this.filterDocker;
+        this.filterFederated = false;
+        this.noFilter = false;
+      }
+      if (filter === "federated"){
+        this.filterFederated = !this.filterFederated;
+        this.filterDocker = false
+        this.noFilter = false;
+      }
+      if (filter === "reset"){
+        this.filterActive = false;
+        this.filterDocker = false;
+        this.filterFederated = false;
+        this.noFilter = true;
+      }
     }
   }
 }

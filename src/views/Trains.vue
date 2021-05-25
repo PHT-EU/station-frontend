@@ -1,10 +1,10 @@
 <template>
-  <div id="train-container" class="container is-centered">
+  <div id="train-container" class="container is-fluid is-centered">
     <div class="container is-centered my-10">
       <h1 class="title">Trains</h1>
     </div>
     <div class="columns">
-      <div class="column is-one-third">
+      <div class="column is-one-quarter">
         <TrainPanel
             :dockerTrains="dockerTrains"
             @refresh="updateTrains(true)"

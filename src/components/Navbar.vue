@@ -1,10 +1,10 @@
 <template>
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="https://ui.pht.medic.uni-tuebingen.de/" target="_blank">
+      <router-link class="navbar-item" to="/">
         <img src="@/assets/logo.png" width="28" height="28">
         <p id="brand-text">PHT</p>
-      </a>
+      </router-link>
 
       <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
