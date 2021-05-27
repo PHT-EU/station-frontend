@@ -9,11 +9,14 @@
             :dockerTrains="dockerTrains"
             @refresh="updateTrains(true)"
             :federatedTrains="federatedTrains"
+            @trainSelected="updateSelectedTrain"
         >
         </TrainPanel>
       </div>
       <div class="column">
         {{ federatedTrains }}
+        <TrainDetails :train="selectedTrain">
+        </TrainDetails>
       </div>
     </div>
 
@@ -23,15 +26,17 @@
 <script>
 
 import axios from "axios";
-import TrainPanel from "@/components/TrainPanel";
+import TrainPanel from "@/components/TrainListPanel";
+import TrainDetails from "@/components/TrainDetails";
 
 export default {
   name: "Trains",
-  components: {TrainPanel},
+  components: {TrainPanel, TrainDetails},
   data() {
     return {
       dockerTrains: [],
-      federatedTrains: []
+      federatedTrains: [],
+      selectedTrain: Object
     }
   },
   methods: {
@@ -49,6 +54,9 @@ export default {
               }
           )
     },
+    updateSelectedTrain(trainId) {
+      console.log(trainId);
+    }
   },
   mounted() {
     this.updateTrains(true);

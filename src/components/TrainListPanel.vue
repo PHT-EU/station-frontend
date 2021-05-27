@@ -27,7 +27,7 @@
         </p>
       </div>
       <p class="panel-tabs">
-        <a v-bind:class="{'is-active': noFilter}">All</a>
+        <a v-bind:class="{'is-active': noFilter}" v-on:click="panelFilterClick('reset')">All</a>
         <a
             v-on:click="panelFilterClick('active')"
             v-bind:class="{'is-active': filterActive}">
@@ -44,15 +44,17 @@
           Federated
         </a>
       </p>
-      <div v-for="train in trains" v-bind:key="train.train_id" class="panel-block">
+      <a v-for="(train, idx) in trains" v-bind:key="train.trainId" class="panel-block"
+           :class="{'selected': idx === activeIndex}"
+           @click="onClickTrain(idx, train.trainId)">
 
         <span v-if="train.type === 'docker'" class="panel-icon docker-icon"></span>
         <span v-else class="icon">
             <i class="fas fa-project-diagram"></i>
         </span>
         {{ train.trainId }}
-
-      </div>
+        <!--        TODO add active status indicator-->
+      </a>
 
       <div class="panel-block">
         <button class="button is-link is-outlined is-fullwidth" v-on:click="panelFilterClick('reset')">
@@ -70,9 +72,11 @@ export default {
     dockerTrains: Array,
     federatedTrains: Array
   },
-
+  emits: ['refresh', 'trainSelected'],
   computed: {
     trains() {
+      // TODO sort by most recent
+      // TODO implement search
       let trains = [];
       if (this.dockerTrains.length >= 1) {
         for (let i = 0; i < this.dockerTrains.length; i++) {
@@ -85,7 +89,7 @@ export default {
         }
 
       }
-      if (this.federatedTrains.length >= 1){
+      if (this.federatedTrains.length >= 1) {
         for (let i = 0; i < this.federatedTrains.length; i++) {
           trains.push({
                 trainId: this.federatedTrains[i].train_id,
@@ -96,20 +100,19 @@ export default {
         }
 
       }
-      if (this.filterActive){
+      if (this.filterActive) {
         trains = trains.filter((el) => el.active);
-        if (this.filterDocker){
+        if (this.filterDocker) {
           return trains.filter((el) => el.type === "docker")
         }
-        if (this.filterFederated){
+        if (this.filterFederated) {
           return trains.filter((el) => el.type === "federated")
         }
-      }
-      else {
-        if (this.filterDocker){
+      } else {
+        if (this.filterDocker) {
           return trains.filter((el) => el.type === "docker")
         }
-        if (this.filterFederated){
+        if (this.filterFederated) {
           return trains.filter((el) => el.type === "federated")
         }
       }
@@ -124,35 +127,51 @@ export default {
       filterActive: false,
       filterDocker: false,
       filterFederated: false,
-      noFilter: true
+      noFilter: true,
+      activeIndex: null
     }
   },
   methods: {
     buttonEvent(event) {
       this.$emit(event);
+    },
+
+    onClickTrain(idx, trainId) {
+
+      if (this.activeIndex === idx){
+        this.activeIndex = null;
+      }
+      else {
+        this.activeIndex = idx;
+        this.$emit("trainSelected", trainId);
+      }
 
     },
+
     panelFilterClick(filter) {
-      if (filter === "active"){
+      // TODO improve this
+      if (filter === "active") {
         this.filterActive = !this.filterActive;
         this.noFilter = false;
       }
-      if (filter === "docker"){
+      if (filter === "docker") {
         this.filterDocker = !this.filterDocker;
         this.filterFederated = false;
         this.noFilter = false;
       }
-      if (filter === "federated"){
+      if (filter === "federated") {
         this.filterFederated = !this.filterFederated;
         this.filterDocker = false
         this.noFilter = false;
       }
-      if (filter === "reset"){
+      if (filter === "reset") {
         this.filterActive = false;
         this.filterDocker = false;
         this.filterFederated = false;
         this.noFilter = true;
       }
+
+
     }
   }
 }
@@ -166,5 +185,12 @@ export default {
   width: 20px;
   display: block;
 }
+
+.selected {
+  border-color: hsl(204, 86%, 53%);
+  border-style: solid;
+  border-width: 1px;
+}
+
 
 </style>
