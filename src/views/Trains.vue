@@ -1,8 +1,5 @@
 <template>
   <div id="train-container" class="container is-fluid is-centered">
-    <div class="container is-centered my-10">
-      <h1 class="title">Trains</h1>
-    </div>
     <div class="columns">
       <div class="column is-one-quarter">
         <TrainPanel
@@ -14,7 +11,6 @@
         </TrainPanel>
       </div>
       <div class="column">
-        {{ federatedTrains }}
         <TrainDetails :train="selectedTrain">
         </TrainDetails>
       </div>
@@ -36,7 +32,7 @@ export default {
     return {
       dockerTrains: [],
       federatedTrains: [],
-      selectedTrain: Object
+      selectedTrain: null
     }
   },
   methods: {
@@ -55,7 +51,11 @@ export default {
           )
     },
     updateSelectedTrain(trainId) {
-      console.log(trainId);
+      let allTrains = this.dockerTrains.concat(this.federatedTrains);
+      this.selectedTrain = allTrains.find(train => {
+        return train.train_id === trainId
+      }
+      )
     }
   },
   mounted() {
@@ -65,5 +65,9 @@ export default {
 </script>
 
 <style scoped>
+
+#train-container {
+  margin-top: 10px;
+}
 
 </style>

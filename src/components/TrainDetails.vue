@@ -1,10 +1,27 @@
 <template>
   <div class="container is-fluid">
-    <h2 class="is-centered">
-      Train: {{ train.trainId }}
+    <h2 class="is-centered title">
+      Train: {{train ? train['train_id'] : 'test'}}
     </h2>
-    <div>
-      {{train}}
+    <div class="tabs is-centered is-medium">
+      <ul>
+        <li class="is-active">
+          <a>
+            Overview
+          </a>
+        </li>
+        <li>
+          <a>
+            Configure
+          </a>
+        </li>
+        <li>
+          <a>
+            History
+          </a>
+        </li>
+
+      </ul>
     </div>
   </div>
 </template>
