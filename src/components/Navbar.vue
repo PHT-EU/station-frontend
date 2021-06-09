@@ -30,9 +30,9 @@
       <div class="navbar-end">
         <div class="navbar-item">
           <div class="buttons">
-            <a class="button is-primary is-outlined">
+            <router-link to="/settings" class="button is-primary is-outlined">
               <i class="fas fa-tools"></i>
-            </a>
+            </router-link>
             <a class="button is-primary">
               <strong>Log in</strong>
             </a>

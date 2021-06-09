@@ -52,7 +52,8 @@
         <span v-else class="icon">
             <i class="fas fa-project-diagram"></i>
         </span>
-        {{ train.trainId }}
+        <span>{{ train.trainId }}</span>
+        <span class="small-circle" v-bind:class="{'green-circle': train.active, 'yellow-circle': !train.active}"></span>
         <!--        TODO add active status indicator-->
       </a>
 
@@ -170,8 +171,6 @@ export default {
         this.filterFederated = false;
         this.noFilter = true;
       }
-
-
     }
   }
 }
@@ -191,6 +190,26 @@ export default {
   border-style: solid;
   border-width: 1px;
 }
+
+.small-circle {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-left: 8px;
+}
+
+.red-circle {
+  background: red;
+}
+.yellow-circle {
+  background: yellow;
+}
+.green-circle {
+  background: green;
+}
+
+
+
 
 
 </style>

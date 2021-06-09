@@ -22,8 +22,8 @@
 <script>
 
 import axios from "axios";
-import TrainPanel from "@/components/TrainListPanel";
-import TrainDetails from "@/components/TrainDetails";
+import TrainPanel from "@/components/trains/TrainListPanel";
+import TrainDetails from "@/components/trains/TrainDetails";
 
 export default {
   name: "Trains",
