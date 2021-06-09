@@ -4,7 +4,10 @@ Configuration
 
 <script>
 export default {
-  name: "ConfigurationTab"
+  name: "ConfigurationTab",
+  props: {
+    train: Object
+  }
 }
 </script>
 

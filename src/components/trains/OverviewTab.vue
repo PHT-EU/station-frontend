@@ -4,7 +4,10 @@ Overview
 
 <script>
 export default {
-  name: "OverviewTab"
+  name: "OverviewTab",
+  props: {
+    train: Object
+  }
 }
 </script>
 

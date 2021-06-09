@@ -23,15 +23,15 @@
       </ul>
     </div>
     <div id="tab-content">
-      <OverviewTab v-if="selectedTab==='overview'"></OverviewTab>
-      <ConfigurationTab v-else-if="selectedTab==='configure'"></ConfigurationTab>
-      <HistoryTab v-else-if="selectedTab==='history'"></HistoryTab>
-      <OverviewTab v-else></OverviewTab>
+      <OverviewTab v-if="selectedTab==='overview'" :train="train"></OverviewTab>
+      <ConfigurationTab v-else-if="selectedTab==='configure'" :train="train"></ConfigurationTab>
+      <HistoryTab v-else-if="selectedTab==='history'" :train="train"></HistoryTab>
     </div>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import OverviewTab from "@/components/trains/OverviewTab";
 import ConfigurationTab from "@/components/trains/ConfigurationTab";
 import HistoryTab from "@/components/trains/HistoryTab";
@@ -44,13 +44,45 @@ export default {
   },
   data() {
     return {
-      selectedTab: "overview"
+      selectedTab: "overview",
+      trainState: Object,
+      trainConfig: Object
     }
   },
   methods: {
     selectTab(tab) {
       this.selectedTab = tab;
+    },
+    async getTrainState() {
+      let url = null;
+      if (this.train.type === "docker") {
+        url = `${process.env.VUE_APP_STATION_API}/trains/docker/${this.train.trainId}/state`;
+      } else {
+        url = `${process.env.VUE_APP_STATION_API}/trains/federated/${this.train.trainId}/state`;
+      }
+      axios.get(url)
+          .then(response => {
+                this.trainState = response.data;
+              }
+          )
+    },
+    async getTrainConfig() {
+      let url = null;
+      if (this.train.type === "docker") {
+        url = `${process.env.VUE_APP_STATION_API}/trains/docker/${this.train.trainId}/config`;
+      } else {
+        url = `${process.env.VUE_APP_STATION_API}/trains/federated/${this.train.trainId}/config`;
+      }
+      axios.get(url)
+          .then(response => {
+                this.trainConfig = response.data;
+              }
+          )
     }
+  },
+  mounted() {
+    this.getTrainState();
+    this.getTrainConfig();
   }
 }
 </script>

@@ -4,7 +4,10 @@ History
 
 <script>
 export default {
-  name: "HistoryTab"
+  name: "HistoryTab",
+  props: {
+    train: Object
+  }
 }
 </script>
 
