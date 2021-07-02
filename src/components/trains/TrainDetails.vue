@@ -15,6 +15,11 @@
             Configure
           </a>
         </li>
+        <li @click="selectTab('review')" v-bind:class="{'is-active': selectedTab==='review'}">
+          <a>
+            Review
+          </a>
+        </li>
         <li @click="selectTab('history')" v-bind:class="{'is-active': selectedTab==='history'}">
           <a>
             History
@@ -26,6 +31,7 @@
       <OverviewTab v-if="selectedTab==='overview'" :train="train"></OverviewTab>
       <ConfigurationTab v-else-if="selectedTab==='configure'" :train="train"></ConfigurationTab>
       <HistoryTab v-else-if="selectedTab==='history'" :train="train"></HistoryTab>
+      <ReviewTab v-else-if="selectedTab==='review'"></ReviewTab>
     </div>
   </div>
 </template>
@@ -35,10 +41,12 @@ import axios from "axios";
 import OverviewTab from "@/components/trains/OverviewTab";
 import ConfigurationTab from "@/components/trains/ConfigurationTab";
 import HistoryTab from "@/components/trains/HistoryTab";
+import ReviewTab from "@/components/trains/ReviewTab";
+
 
 export default {
   name: "TrainDetails",
-  components: {OverviewTab, ConfigurationTab, HistoryTab},
+  components: {OverviewTab, ConfigurationTab, HistoryTab, ReviewTab},
   props: {
     train: Object
   },
