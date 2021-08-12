@@ -4,6 +4,7 @@
     <div class="columns">
       <div class="column is-one-quarter">
         Dataset List
+        {{dataSets}}
       </div>
       <div class="column">
         Details
@@ -25,6 +26,11 @@ export default {
   methods:  {
     async getDataSets() {
       let url = `${process.env.VUE_APP_STATION_API}/datasets`;
+      console.log(url)
+      axios.defaults.headers.get['header-name'] = 'value'
+      axios.get(url).then(response => {
+        console.log(response)
+      })
       axios.get(url).then(response => {
         this.dataSets = response.data;
       })
