@@ -17,29 +17,11 @@
               <th>fhir user</th>
               <th>fhir password</th>
               <th>fhir server type</th>
-              <th>Delete/Add</th>
+              <th><button class="button is-primary is-outlined "  v-on:click="getDataSets()">
+                <i class="fas fa-sync-alt"></i>
+              </button></th>
             </tr>
            </thead>
-          <tfoot>
-          <tr>
-            <th>id</th>
-            <th><input class="input is-primary" type="text" placeholder="name"></th>
-            <th><input class="input is-primary" type="text" placeholder="storage type"></th>
-            <th>created at</th>
-            <th><input class="input is-primary" type="text" placeholder="access path"></th>
-            <th><input class="input is-primary" type="text" placeholder="proposal id"></th>
-            <th>n_items</th>
-            <th><input class="input is-primary" type="text" placeholder="target field"></th>
-            <th><input class="input is-primary" type="text" placeholder="fhir user"></th>
-            <th><input class="input is-primary" type="password" placeholder="fhir password"></th>
-            <th><input class="input is-primary" type="text" placeholder="fhir server type"></th>
-            <th>
-              <button class="button is-success is-outlined" v-on:click="addDataset()">
-                <i class="far fa-plus-square"></i>
-              </button>
-            </th>
-          </tr>
-          </tfoot>
           <tbody>
             <tr v-for="row in tableData" :key="row.id">
               <td>{{row.id}}</td>
@@ -62,10 +44,14 @@
           </tbody>
           </table>
       </div>
-
-      <PopUpForm/>
+    </div>
+    <div class="column">
+      <div class="columns">
+        <PopUpForm></PopUpForm>
+      </div>
     </div>
   </div>
+
 </template>
 
 <script>
@@ -74,12 +60,7 @@ import PopUpForm from '@/components/data/PopUpForm';
 
 export default {
   name: "Data",
-  components: "dataTable",
-  setup() {
-     return {
-        PopUpForm
-     }
-  },
+  components:{PopUpForm},
   data() {
     return  {
       dataSets: [],
