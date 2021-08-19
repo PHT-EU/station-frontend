@@ -3,40 +3,50 @@
     <button class="button is-success is-outlined"  @click="showModal = true">
       <i class="far fa-plus-square"></i>
     </button>
-  <modal v-if="showModal" @close="showModal = false">
+  <div v-if="showModal" @close="showModal = false">
     <div class="modal-background" @click="showModal = false"></div>
     <div class="modal-content" >
       <div class="box">
-        <input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"><br><br>
-        <input class="input is-primary"  v-model="newDataSet.data_type" type="text" placeholder="storage type"><br><br>
-        <input class="input is-primary"  v-model="newDataSet.storage_type" type="text" placeholder="access path"><br><br>
-        <input class="input is-primary"  v-model="newDataSet.proposal_id" type="text" placeholder="proposal id"><br><br>
-        <input class="input is-primary"  v-model="newDataSet.access_path" type="text" placeholder="target field"><br><br>
-        <label class="checkbox">
-        <input  class="checkbox is-primary" type="checkbox"   value="true" v-model="fhir_server">
-          add a fhir server
-        </label>
-        <input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_user" type="text" placeholder="fhir user"><br>
-        <input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_password" type="password" placeholder="fhir password"><br>
-        <div class="select is-primary" v-if="fhir_server">
-        <select v-model="newDataSet.fhir_server_type" v-if="fhir_server">
-          <option disabled value="">Please select one fhir server type</option>
-          <option>blaze</option>
-          <option>hapi</option>
-          <option>ibm</option>
-        </select>
-        </div>
-        <button class="button is-success is-outlined" v-on:click="addDataset()">
-          <i class="far fa-plus-square"></i>
-        </button><br>
+        <H1 class="title"> Add a dataset</H1>
+        <table class="table is-fullwidth">
+          <tbody>
+          <tr><td> name of the new dataset </td>
+              <td><input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"></td></tr>
+          <tr><td> storage type </td>
+              <td><input class="input is-primary"  v-model="newDataSet.storage_type" type="text" placeholder="storage type"></td></tr>
+          <tr><td> data type </td>
+              <td><input class="input is-primary"  v-model="newDataSet.data_type" type="text" placeholder="data type"></td></tr>
+          <tr><td> access path </td><td><input class="input is-primary"  v-model="newDataSet.access_path" type="text" placeholder="access path"></td></tr>
+          <tr><td> proposal id </td>
+              <td><input class="input is-primary"  v-model="newDataSet.proposal_id" type="text" placeholder="proposal id"></td></tr>
+          <tr><td> target field </td>
+              <td><input class="input is-primary"  v-model="newDataSet.target_field" type="text" placeholder="target field"></td></tr>
 
-    <button class="button is-success is-outlined" @click="showModal = false">
-      close
-    </button>
-
+          <tr><td> Name of the new dataset </td><td><label class="checkbox">
+            <input  class="checkbox is-primary" type="checkbox"   value="true" v-model="fhir_server">
+              add a fhir server
+            </label></td></tr>
+          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_user" type="text" placeholder="fhir user"></td></tr>
+          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_password" type="password" placeholder="fhir password"></td></tr>
+          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><div class="select is-primary" v-if="fhir_server">
+            <select v-model="newDataSet.fhir_server_type" v-if="fhir_server">
+              <option disabled value="">Please select one fhir server type</option>
+              <option>blaze</option>
+              <option>hapi</option>
+              <option>ibm</option>
+            </select>
+            </div></td></tr>
+          <tr><td><button class="button is-success is-outlined" v-on:click="addDataset()">
+              add dataset
+            </button></td>
+            <td><button class="button is-success is-outlined" @click="showModal = false">
+              close
+            </button></td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </modal>
+  </div>
   </div>
 </template>
 
@@ -50,34 +60,37 @@ export default {
       showModal: false,
       fhir_server: false,
       newDataSet: {
-        name: "fhir_test",
-        data_type: "json",
-        storage_type: "fhir",
-        proposal_id: 42,
-        access_path: "https://fhir.personalhealthtrain.de",
+        name: "",
+        data_type: "",
+        storage_type: "",
+        proposal_id: 0,
+        access_path: "",
+        target_field: "",
         n_items: 0,
-        fhir_user: "fhiruser" ,
-        fhir_password: "PhT-Fhir",
-        fhir_server_type: "ibm"
+        fhir_user: "" ,
+        fhir_password: "",
+        fhir_server_type: ""
       },
-      //["blaze", "hapi", "ibm"]
     }
   },
   methods: {
     async addDataset(){
       let url = `${process.env.VUE_APP_STATION_API}/datasets`;
       await axios.post(url, this.newDataSet);
-      //await this.getDataSets();
-      this.showModal = false
+      this.showModal = false;
     }
   }
 }
 </script>
 
 <style scoped>
+.table{
+  align-self: center;
+}
 .modal-content{
   z-index: 9999;
   position: absolute;
+  margin-top: 20%;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
