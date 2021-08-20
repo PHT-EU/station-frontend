@@ -19,16 +19,16 @@
           <tr><td> access path </td><td><input class="input is-primary"  v-model="newDataSet.access_path" type="text" placeholder="access path"></td></tr>
           <tr><td> proposal id </td>
               <td><input class="input is-primary"  v-model="newDataSet.proposal_id" type="text" placeholder="proposal id"></td></tr>
-          <tr><td> target field </td>
+          <tr><td> target field (optional) </td>
               <td><input class="input is-primary"  v-model="newDataSet.target_field" type="text" placeholder="target field"></td></tr>
 
-          <tr><td> Name of the new dataset </td><td><label class="checkbox">
+          <tr><td> </td><td><label class="checkbox">
             <input  class="checkbox is-primary" type="checkbox"   value="true" v-model="fhir_server">
               add a fhir server
             </label></td></tr>
-          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_user" type="text" placeholder="fhir user"></td></tr>
-          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_password" type="password" placeholder="fhir password"></td></tr>
-          <tr v-if="fhir_server"><td> Name of the new dataset </td><td><div class="select is-primary" v-if="fhir_server">
+          <tr v-if="fhir_server"><td> user of the fhir server </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_user" type="text" placeholder="fhir user"></td></tr>
+          <tr v-if="fhir_server"><td> password for the fhir user </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_password" type="password" placeholder="fhir password"></td></tr>
+          <tr v-if="fhir_server"><td> type of fhir server </td><td><div class="select is-primary" v-if="fhir_server">
             <select v-model="newDataSet.fhir_server_type" v-if="fhir_server">
               <option disabled value="">Please select one fhir server type</option>
               <option>blaze</option>
