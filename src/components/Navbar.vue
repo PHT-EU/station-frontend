@@ -2,7 +2,7 @@
   <nav class="navbar is-light" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
       <router-link class="navbar-item" to="/">
-        <img src="@/assets/logo.png" width="28" height="28">
+        <img src="@/assets/logo.png" width="28" height="28" alt="logo">
         <p id="brand-text">PHT</p>
       </router-link>
 
@@ -20,6 +20,9 @@
         </router-link>
         <router-link to="/data" class="navbar-item">
           Data
+        </router-link>
+        <router-link to="/Station" class="navbar-item">
+          Station
         </router-link>
         <router-link to="/about" class="navbar-item">
           About
