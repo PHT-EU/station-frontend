@@ -2,7 +2,10 @@
   <div id="Station" class="container is-fluid is-centered">
     <div class="columns">
       <div class="column is-one-quarter">
-       <AirflowStatus></AirflowStatus>
+        <AirflowStatus></AirflowStatus>
+      </div>
+      <div class="column is-one-quarter">
+        <HarborStatus></HarborStatus>
       </div>
     </div>
   </div>
@@ -10,10 +13,11 @@
 
 <script>
 
-import AirflowStatus from '@/components/Station/AirflowStatus';
+import AirflowStatus from '@/components/station/AirflowStatus';
+import HarborStatus from '@/components/station/haborStatus'
 export default {
   name: "Station",
-  components: {AirflowStatus},
+  components: {AirflowStatus, HarborStatus},
 
 }
 </script>
