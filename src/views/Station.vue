@@ -23,7 +23,7 @@
 <script>
 import FhirStatus from '@/components/station/FhirStatus'
 import AirflowStatus from '@/components/station/AirflowStatus';
-import HarborStatus from '@/components/station/haborStatus'
+import HarborStatus from '@/components/station/HarborStatus'
 import MinIOStatus from "@/components/station/MinIOStatus";
 export default {
   name: "Station",

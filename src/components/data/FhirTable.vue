@@ -4,28 +4,24 @@
     <tr>
       <th>id</th>
       <th>name</th>
-      <th>storage type</th>
       <th>created at</th>
-      <th>access path</th>
+      <th>Server url</th>
       <th>proposal id</th>
       <th>items</th>
-      <th>target field</th>
-      <th>fhir user</th>
-      <th>fhir password</th>
-      <th>fhir server type</th>
-      <th>Delete/Add</th>
+      <th>user</th>
+      <th>password</th>
+      <th>server type</th>
+      <th>Delete</th>
     </tr>
     </thead>
     <tbody>
     <tr v-for="row in tableData" :key="row.id">
       <td>{{row.id}}</td>
       <td>{{ row.name }}</td>
-      <td>{{ row.storage_type }}</td>
       <td>{{ row.created_at }}</td>
       <td>{{ row.access_path }}</td>
       <td>{{ row.proposal_id }}</td>
       <td>{{row.n_items}}</td>
-      <td>{{row.target_field}}</td>
       <td>{{row.fhir_user}}</td>
       <td class="hidetext">{{row.fhir_password}}</td>
       <td>{{row.fhir_server_type}}</td>
@@ -40,11 +36,10 @@
 </template>
 
 <script>
-
 import axios from "axios";
 
 export default {
-  name: "dataTable",
+  name: "FhirTable",
   props: {  tableData: Array},
   emits: ['refresh'],
   methods: {
@@ -58,5 +53,5 @@ export default {
 </script>
 
 <style scoped>
-.hidetext { -webkit-text-security: disc; /* Default */ }
+
 </style>

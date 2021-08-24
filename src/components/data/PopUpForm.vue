@@ -73,11 +73,13 @@ export default {
       },
     }
   },
+  emits: ['refresh'],
   methods: {
     async addDataset(){
       let url = `${process.env.VUE_APP_STATION_API}/datasets`;
       await axios.post(url, this.newDataSet);
       this.showModal = false;
+      this.$emit('refresh');
     }
   }
 }
