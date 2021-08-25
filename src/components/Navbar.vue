@@ -21,9 +21,6 @@
         <router-link to="/data" class="navbar-item">
           Data
         </router-link>
-        <router-link to="/Station" class="navbar-item">
-          Station
-        </router-link>
         <router-link to="/about" class="navbar-item">
           About
         </router-link>
