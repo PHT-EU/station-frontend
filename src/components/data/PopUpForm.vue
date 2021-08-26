@@ -13,23 +13,23 @@
           <tr><td> name of the new dataset </td>
               <td><input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"></td></tr>
           <tr><td> storage type </td>
-              <td><input class="input is-primary"  v-model="newDataSet.storage_type" type="text" placeholder="storage type"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.storageType" type="text" placeholder="storage type"></td></tr>
           <tr><td> data type </td>
-              <td><input class="input is-primary"  v-model="newDataSet.data_type" type="text" placeholder="data type"></td></tr>
-          <tr><td> access path </td><td><input class="input is-primary"  v-model="newDataSet.access_path" type="text" placeholder="access path"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.dataType" type="text" placeholder="data type"></td></tr>
+          <tr><td> access path </td><td><input class="input is-primary" v-model="newDataSet.accessPath" type="text" placeholder="access path"></td></tr>
           <tr><td> proposal id </td>
-              <td><input class="input is-primary"  v-model="newDataSet.proposal_id" type="text" placeholder="proposal id"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.proposalId" type="text" placeholder="proposal id"></td></tr>
           <tr><td> target field (optional) </td>
-              <td><input class="input is-primary"  v-model="newDataSet.target_field" type="text" placeholder="target field"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.targetField" type="text" placeholder="target field"></td></tr>
 
           <tr><td> </td><td><label class="checkbox">
             <input  class="checkbox is-primary" type="checkbox"   value="true" v-model="fhir_server">
               add a fhir server
             </label></td></tr>
-          <tr v-if="fhir_server"><td> user of the fhir server </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_user" type="text" placeholder="fhir user"></td></tr>
-          <tr v-if="fhir_server"><td> password for the fhir user </td><td><input class="input is-primary" v-if="fhir_server"  v-model="newDataSet.fhir_password" type="password" placeholder="fhir password"></td></tr>
+          <tr v-if="fhir_server"><td> user of the fhir server </td><td><input class="input is-primary" v-if="fhir_server" v-model="newDataSet.fhirUser" type="text" placeholder="fhir user"></td></tr>
+          <tr v-if="fhir_server"><td> password for the fhir user </td><td><input class="input is-primary" v-if="fhir_server" v-model="newDataSet.fhirPassword" type="password" placeholder="fhir password"></td></tr>
           <tr v-if="fhir_server"><td> type of fhir server </td><td><div class="select is-primary" v-if="fhir_server">
-            <select v-model="newDataSet.fhir_server_type" v-if="fhir_server">
+            <select v-model="newDataSet.fhirServerType" v-if="fhir_server">
               <option disabled value="">Please select one fhir server type</option>
               <option>blaze</option>
               <option>hapi</option>
@@ -58,18 +58,18 @@ export default {
   data() {
     return  {
       showModal: false,
-      fhir_server: false,
+      fhirServer: false,
       newDataSet: {
         name: "",
-        data_type: "",
-        storage_type: "",
-        proposal_id: 0,
-        access_path: "",
-        target_field: "",
-        n_items: 0,
-        fhir_user: "" ,
-        fhir_password: "",
-        fhir_server_type: ""
+        dataType: "",
+        storageType: "",
+        proposalId: 0,
+        accessPath: "",
+        targetField: "",
+        nItems: 0,
+        fhirUser: "" ,
+        fhirPassword: "",
+        fhirServerType: ""
       },
     }
   },
@@ -77,7 +77,19 @@ export default {
   methods: {
     async addDataset(){
       let url = `${process.env.VUE_APP_STATION_API}/datasets`;
-      await axios.post(url, this.newDataSet);
+      let postDataSet ={
+        name: this.newDataSet.name,
+        data_type: this.newDataSet.dataType,
+        storage_type:this.newDataSet.storageType,
+        proposal_id:this.newDataSet.proposalId,
+        access_path:this.newDataSet.accessPath,
+        target_field:this.newDataSet.targetField,
+        n_items:this.newDataSet.nItems,
+        fhir_user:this.newDataSet.nItems,
+        fhir_password:this.newDataSet.fhirPassword,
+        fhir_server_type:this.newDataSet.fhirServerType
+      };
+      await axios.post(url, postDataSet);
       this.showModal = false;
       this.$emit('refresh');
     }

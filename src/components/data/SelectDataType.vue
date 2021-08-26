@@ -56,17 +56,17 @@ export default {
   computed: {
     CSVFilter: function(){
       return  this.tableData.filter(function(row) {
-        return row.storage_type === 'csv';
+        return row.storageType === 'csv';
       });
     },
     FhirFilter: function(){
       return  this.tableData.filter(function(row) {
-        return row.storage_type === 'fhir';
+        return row.storageType === 'fhir';
       });
     },
     MinIOFilter: function(){
       return  this.tableData.filter(function(row) {
-        return row.storage_type === 'minio';
+        return row.storageType === 'minio';
       });
     },
   }

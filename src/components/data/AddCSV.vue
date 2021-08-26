@@ -12,11 +12,11 @@
             <tbody>
             <tr><td> name of the new dataset </td>
               <td><input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"></td></tr>
-            <tr><td> access path </td><td><input class="input is-primary"  v-model="newDataSet.access_path" type="text" placeholder="access path"></td></tr>
+            <tr><td> access path </td><td><input class="input is-primary" v-model="newDataSet.accessPath" type="text" placeholder="access path"></td></tr>
             <tr><td> proposal id </td>
-              <td><input class="input is-primary"  v-model="newDataSet.proposal_id" type="text" placeholder="proposal id"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.proposalId" type="text" placeholder="proposal id"></td></tr>
             <tr><td> target field (optional) </td>
-              <td><input class="input is-primary"  v-model="newDataSet.target_field" type="text" placeholder="target field"></td></tr>
+              <td><input class="input is-primary" v-model="newDataSet.targetField" type="text" placeholder="target field"></td></tr>
             <tr><td><button class="button is-success is-outlined" v-on:click="addDataset()">
               add dataset
             </button></td>
@@ -39,18 +39,18 @@ export default {
   data() {
     return  {
       showModal: false,
-      fhir_server: false,
+      fhirServer: false,
       newDataSet: {
         name: "",
-        data_type: "csv",
-        storage_type: "csv",
-        proposal_id: 0,
-        access_path: "",
-        target_field: "",
-        n_items: 0,
-        fhir_user: "" ,
-        fhir_password: "",
-        fhir_server_type: ""
+        dataType: "csv",
+        storageType: "csv",
+        proposalId: 0,
+        accessPath: "",
+        targetField: "",
+        nItems: 0,
+        fhirUser: "" ,
+        fhirPassword: "",
+        fhirServerType: ""
       },
     }
   },
@@ -58,7 +58,19 @@ export default {
   methods: {
     async addDataset(){
       let url = `${process.env.VUE_APP_STATION_API}/datasets`;
-      await axios.post(url, this.newDataSet);
+      let postDataSet ={
+        name: this.newDataSet.name,
+        data_type: this.newDataSet.dataType,
+        storage_type:this.newDataSet.storageType,
+        proposal_id:this.newDataSet.proposalId,
+        access_path:this.newDataSet.accessPath,
+        target_field:this.newDataSet.targetField,
+        n_items:this.newDataSet.nItems,
+        fhir_user:this.newDataSet.nItems,
+        fhir_password:this.newDataSet.fhirPassword,
+        fhir_server_type:this.newDataSet.fhirServerType
+      };
+      await axios.post(url, postDataSet);
       this.showModal = false;
       this.$emit('refresh');
     }
