@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     async getFhirStatus() {
-      let url = `${process.env.VUE_APP_STATION_API}/status/Fhir`;
+      let url = `${process.env.VUE_APP_STATION_API}/status/fhir`;
       axios.get(url).then(response => {
         if (response.data.status ==="healthy"){
           this.FhirStatus = true

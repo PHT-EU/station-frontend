@@ -7,7 +7,7 @@
       <div class="modal-background" @click="showModal = false"></div>
       <div class="modal-content" >
         <div class="box">
-          <H1 class="title"> Add a fhir dataset</H1>
+          <h1 class="title"> Add a fhir dataset</h1>
           <table class="table is-fullwidth">
             <tbody>
             <tr><td> name of the new dataset </td>
