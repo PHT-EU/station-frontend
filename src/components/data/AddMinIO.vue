@@ -80,7 +80,7 @@ export default {
         access_path:this.newDataSet.accessPath,
         target_field:this.newDataSet.targetField,
         n_items:this.newDataSet.nItems,
-        fhir_user:this.newDataSet.nItems,
+        fhir_user:this.newDataSet.fhirUser,
         fhir_password:this.newDataSet.fhirPassword,
         fhir_server_type:this.newDataSet.fhirServerType
       };

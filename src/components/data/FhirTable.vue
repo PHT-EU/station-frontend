@@ -53,5 +53,5 @@ export default {
 </script>
 
 <style scoped>
-
+.hidetext { -webkit-text-security: disc; /* Default */ }
 </style>

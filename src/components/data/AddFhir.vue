@@ -7,18 +7,22 @@
       <div class="modal-background" @click="showModal = false"></div>
       <div class="modal-content" >
         <div class="box">
-          <h1 class="title"> Add a fhir dataset</h1>
+          <h1 class="title"> Add a FHIR dataset</h1>
           <table class="table is-fullwidth">
             <tbody>
-            <tr><td> name of the new dataset </td>
-              <td><input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"></td></tr>
-            <tr><td> data type </td>
-              <td><input class="input is-primary" v-model="newDataSet.dataType" type="text" placeholder="data type"></td></tr>
+
+            <tr><td> name of the new dataset </td><td><input class="input is-primary"  v-model="newDataSet.name" type="text" placeholder="name"></td></tr>
+
+            <tr><td> data type </td><td><input class="input is-primary" v-model="newDataSet.dataType" type="text" placeholder="data type"></td></tr>
+
             <tr><td> url </td><td><input class="input is-primary" v-model="newDataSet.accessPath" type="text" placeholder="access path"></td></tr>
-            <tr><td> proposal id </td>
-              <td><input class="input is-primary" v-model.number="newDataSet.proposalId" type="number" placeholder="proposal id"></td></tr>
+
+            <tr><td> proposal id </td><td><input class="input is-primary" v-model.number="newDataSet.proposalId" type="number" placeholder="proposal id"></td></tr>
+
             <tr ><td> user of the fhir server </td><td><input class="input is-primary" v-model="newDataSet.fhirUser" type="text" placeholder="fhir user"></td></tr>
+
             <tr ><td> password for the fhir user </td><td><input class="input is-primary" v-model="newDataSet.fhirPassword" type="password" placeholder="fhir password"></td></tr>
+
             <tr><td> type of fhir server </td><td><div class="select is-primary">
               <select v-model="newDataSet.fhirServerType" >
                 <option disabled value="">Please select one fhir server type</option>
@@ -66,7 +70,7 @@ export default {
       postNotWorking: false,
       newDataSet: {
         name: "",
-        dataType: "fhir",
+        dataType: "",
         storageType: "fhir",
         proposalId: NaN,
         accessPath: "",
@@ -90,7 +94,7 @@ export default {
             access_path:this.newDataSet.accessPath,
             target_field:this.newDataSet.targetField,
             n_items:this.newDataSet.nItems,
-            fhir_user:this.newDataSet.nItems,
+            fhir_user:this.newDataSet.fhirUser,
             fhir_password:this.newDataSet.fhirPassword,
             fhir_server_type:this.newDataSet.fhirServerType
       };
