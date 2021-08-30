@@ -16,13 +16,26 @@
               <td><input class="input is-primary" v-model="newDataSet.dataType" type="text" placeholder="data type"></td></tr>
             <tr><td> access path </td><td><input class="input is-primary" v-model="newDataSet.accessPath" type="text" placeholder="access path"></td></tr>
             <tr><td> proposal id </td>
-              <td><input class="input is-primary" v-model="newDataSet.proposalId" type="text" placeholder="proposal id"></td></tr>
-            <tr><td><button class="button is-success is-outlined" v-on:click="addDataset()">
+              <td><input class="input is-primary" v-model.number="newDataSet.proposalId" type="number" placeholder="proposal id"></td></tr>
+            <tr v-if="!postNotWorking"><td><button class="button is-success is-outlined" v-on:click="addDataset()">
               add dataset
             </button></td>
               <td><button class="button is-success is-outlined" @click="showModal = false">
                 close
               </button></td></tr>
+            <tr v-if="postNotWorking"><td><button class="button is-danger is-outlined" v-on:click="addDataset()">
+              add dataset
+            </button></td>
+              <td><button class="button is-danger is-outlined" @click="showModal = false; postNotWorking=false">
+                close
+              </button></td></tr>
+              <tr v-if="postNotWorking">
+                <td>
+                  <p>
+                    Adding this dataset is not working, the post resulted in following error massage {{error}}
+                  </p>
+                </td>
+              </tr>
             </tbody>
           </table>
         </div>
@@ -40,14 +53,15 @@ export default {
     return  {
       showModal: false,
       fhirServer: false,
+      postNotWorking: false,
       newDataSet: {
         name: "",
         dataType: "",
         storageType: "minio",
-        proposalId: 0,
+        proposalId: NaN,
         accessPath: "",
         targetField: "",
-        nItems: 0,
+        nItems: NaN,
         fhirUser: "" ,
         fhirPassword: "",
         fhirServerType: ""
@@ -70,9 +84,16 @@ export default {
         fhir_password:this.newDataSet.fhirPassword,
         fhir_server_type:this.newDataSet.fhirServerType
       };
-      await axios.post(url, postDataSet);
-      this.showModal = false;
-      this.$emit('refresh');
+      await axios.post(url, postDataSet)
+          .then(response =>{
+            console.log(response);
+            this.showModal = false;
+            this.$emit('refresh');
+          })
+          .catch(error => {
+            this.postNotWorking = true;
+            console.log(error);
+          });
     }
   }
 }
