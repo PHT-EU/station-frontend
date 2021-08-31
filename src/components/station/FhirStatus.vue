@@ -19,7 +19,10 @@
     <div  v-if="FhirStatusMoreInformation === true" class="card-content">
       <div class="content">
         <div class="block has-text-left">
-          No additional information at this moment
+          <div v-for="FhirSever in FhirSeverList" v-bind:key="FhirSever.name">
+            {{FhirSever.name}} :  <strong>{{FhirSever.status}}</strong> <br>
+            last check :  {{FhirSever.date}}
+          </div>
         </div>
       </div>
     </div>
@@ -36,6 +39,7 @@ export default {
     return{
       FhirStatus: false,
       FhirStatusMoreInformation: false,
+      FhirSeverList: [],
     }
   },
   created() {
@@ -45,9 +49,17 @@ export default {
     async getFhirStatus() {
       let url = `${process.env.VUE_APP_STATION_API}/status/fhir`;
       axios.get(url).then(response => {
-        if (response.data.status ==="healthy"){
+        this.FhirSeverList = response.data
+        if (this.FhirSeverList.length >0){
           this.FhirStatus = true
         }
+        for (let index in this.FhirSeverList){
+          if (this.FhirSeverList[index].status !=="healthy"){
+            this.FhirStatus = false
+          }
+        }
+
+        console.log(response.data)
       })
     },
   }
