@@ -18,17 +18,29 @@
           <HarborStatus></HarborStatus>
         </li>
     </ul>
+    <p class="menu-label is-hidden-touch">Station Hardware Resources </p>
+    <ul class="menu-list">
+      <li>
+        <MemoryStatus></MemoryStatus>
+      </li>
+      <li>
+        <CPUStatus></CPUStatus>
+      </li>
+    </ul>
   </aside>
 </template>
 
 <script>
-import FhirStatus from '@/components/station/FhirStatus'
+import FhirStatus from '@/components/station/FhirStatus';
 import AirflowStatus from '@/components/station/AirflowStatus';
-import HarborStatus from '@/components/station/HarborStatus'
+import HarborStatus from '@/components/station/HarborStatus';
 import MinIOStatus from "@/components/station/MinIOStatus";
+import MemoryStatus from "@/components/station/MemoryStatus";
+import CPUStatus from "@/components/station/CPUStatus";
 export default {
   name: "StatusSidebar",
-  components: {AirflowStatus, HarborStatus, MinIOStatus, FhirStatus},
+  components: {AirflowStatus, HarborStatus, MinIOStatus, FhirStatus, MemoryStatus, CPUStatus
+  },
 
 }
 </script>

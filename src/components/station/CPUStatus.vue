@@ -2,8 +2,8 @@
   <div class="card">
     <header class="card-header">
       <p class="card-header-title">
-        <span class="icon has-text-success">  <i class="fas fa-2x fa-memory "></i> </span>
-        &nbsp;&nbsp;<progress class="progress is-success" :value="MemoryUsage" max="100">{{ MemoryUsage}}%</progress>
+        <span class="icon has-text-danger">  <i class="fas fa-2x fa-microchip"></i> </span>
+        &nbsp;&nbsp;<progress class="progress is-success" :value="CPUUsageMean" max="100">{{ CPUUsageMean}}%</progress>
       </p>
       <button class="card-header-icon" aria-label="more options" @click="MoreInformation=!MoreInformation">
           <span class="icon">
@@ -14,6 +14,9 @@
     </header>
     <div  v-if="MoreInformation === true" class="card-content">
       <div class="content">
+        <div v-for="CPU in CPUUsage" v-bind:key="CPU">
+       <progress class="progress is-success" :value="CPU" max="100">{{CPU}}%</progress> <br>
+        </div>
       </div>
     </div>
   </div>
@@ -24,22 +27,26 @@
 import axios from 'axios';
 
 export default {
-  name: "MemoryStatus",
+  name: "CPUStatus",
   data(){
     return{
-     MoreInformation: false,
-     MemoryUsage: NaN,
+      MoreInformation: false,
+      CPUUsage: [],
+      CPUUsageMean: NaN,
     }
   },
   created() {
-    this.getMemoryStatus();
+    this.getCPUStatus();
   },
   methods: {
-    async getMemoryStatus() {
-      let url = `${process.env.VUE_APP_STATION_API}/status/total_memory_util`;
+    async getCPUStatus() {
+      let url = `${process.env.VUE_APP_STATION_API}/status/total_cpu_util`;
+
       axios.get(url).then(response => {
-        this.MemoryUsage = response.data
-        console.log(response.data)
+        this.CPUUsage = response.data
+        this.CPUUsageMean= this.CPUUsage.reduce(function(pv, cv) { return pv + cv; }, 0)/this.CPUUsage.length;
+        this.CPUUsage = response.data
+        console.log(this.CPUUsage )
       })
     },
   }

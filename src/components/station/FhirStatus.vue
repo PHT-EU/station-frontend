@@ -58,8 +58,6 @@ export default {
             this.FhirStatus = false
           }
         }
-
-        console.log(response.data)
       })
     },
   }
