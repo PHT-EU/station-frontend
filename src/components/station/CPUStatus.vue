@@ -2,7 +2,7 @@
   <div class="card">
     <header class="card-header">
       <p class="card-header-title">
-        <span class="icon has-text-danger">  <i class="fas fa-2x fa-microchip"></i> </span>
+        <span class="icon has-text-success">  <i class="fas fa-2x fa-microchip"></i> </span>
         &nbsp;&nbsp;<progress class="progress is-success" :value="CPUUsageMean" max="100">{{ CPUUsageMean}}%</progress>
       </p>
       <button class="card-header-icon" aria-label="more options" @click="MoreInformation=!MoreInformation">
@@ -14,8 +14,8 @@
     </header>
     <div  v-if="MoreInformation === true" class="card-content">
       <div class="content">
-        <div v-for="CPU in CPUUsage" v-bind:key="CPU">
-       <progress class="progress is-success" :value="CPU" max="100">{{CPU}}%</progress> <br>
+        <div v-for="CPU in CPUUsage" v-bind:key="CPU.id">
+          logical core {{CPU.id}}: {{CPU.usage}}%  <progress class="progress is-success" :value="CPU.usage" max="100">{{CPU.usage}}%</progress>
         </div>
       </div>
     </div>
@@ -37,16 +37,22 @@ export default {
   },
   created() {
     this.getCPUStatus();
+    this.timer = setInterval(this.getCPUStatus, 30000);
   },
   methods: {
     async getCPUStatus() {
       let url = `${process.env.VUE_APP_STATION_API}/status/total_cpu_util`;
 
       axios.get(url).then(response => {
-        this.CPUUsage = response.data
-        this.CPUUsageMean= this.CPUUsage.reduce(function(pv, cv) { return pv + cv; }, 0)/this.CPUUsage.length;
-        this.CPUUsage = response.data
-        console.log(this.CPUUsage )
+        let data = response.data
+        this.CPUUsageMean= data.reduce(function(pv, cv) { return pv + cv; }, 0)/data.length;
+        this.CPUUsage = []
+        for (let cpu in data){
+          let cpuDict = {}
+          cpuDict.id = cpu
+          cpuDict.usage = data[cpu]
+          this.CPUUsage.push(cpuDict)
+        }
       })
     },
   }
