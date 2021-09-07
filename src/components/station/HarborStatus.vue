@@ -73,7 +73,7 @@ export default {
         this.registryctl = data[6].status;
         this.trivy = data[7].status;
 
-      })
+      });
     },
   }
 }

@@ -46,7 +46,7 @@ export default {
       let url = `${process.env.VUE_APP_STATION_API}/status/Minio`;
       axios.get(url).then(response => {
         if (response.data.status ==="healthy"){
-          this.MinIOStatus = true
+          this.MinIOStatus = true;
         }
       })
     },

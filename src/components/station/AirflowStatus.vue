@@ -51,7 +51,7 @@ export default {
       let url = `${process.env.VUE_APP_STATION_API}/status/Airflow`;
       axios.get(url).then(response => {
         if (response.data["metadatabase"]["status"]==="healthy" && response.data["scheduler"]["status"]==="healthy"){
-          this.AirflowStatus = true
+          this.AirflowStatus = true;
         }
         this.lastUpdateTime =response.data["scheduler"]["latest_scheduler_heartbeat"];
         this.metaDatabaseStatus =  response.data["metadatabase"]["status"];

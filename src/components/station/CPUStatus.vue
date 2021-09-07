@@ -15,7 +15,10 @@
     <div  v-if="MoreInformation === true" class="card-content">
       <div class="content">
         <div v-for="CPU in CPUUsage" v-bind:key="CPU.id">
-          logical core {{CPU.id}}: {{CPU.usage}}%  <progress class="progress is-success" :value="CPU.usage" max="100">{{CPU.usage}}%</progress>
+          <div class="box">
+            logical core {{CPU.id}}: {{CPU.usage}}% <progress class="progress is-success" :value="CPU.usage" max="100"/>
+<!--            <CircleProgress :percent="CPU.usage" :viewport="true" :show-percent="true" fill-color:="#46c875" :size="80" />-->
+          </div>
         </div>
       </div>
     </div>
@@ -25,32 +28,35 @@
 
 <script>
 import axios from 'axios';
-
+//import "vue3-circle-progress/dist/circle-progress.css";
+//import CircleProgress from "vue3-circle-progress"
 export default {
   name: "CPUStatus",
   data(){
     return{
       MoreInformation: false,
       CPUUsage: [],
-      CPUUsageMean: NaN,
+      CPUUsageMean: 100,
+      percent: 50,
     }
   },
   created() {
     this.getCPUStatus();
     this.timer = setInterval(this.getCPUStatus, 30000);
   },
+  //components: {CircleProgress},
   methods: {
     async getCPUStatus() {
       let url = `${process.env.VUE_APP_STATION_API}/status/total_cpu_util`;
 
       axios.get(url).then(response => {
         let data = response.data
-        this.CPUUsageMean= data.reduce(function(pv, cv) { return pv + cv; }, 0)/data.length;
+        this.CPUUsageMean= Math.round(data.reduce(function(pv, cv) { return pv + cv; }, 0)/data.length);
         this.CPUUsage = []
         for (let cpu in data){
           let cpuDict = {}
           cpuDict.id = cpu
-          cpuDict.usage = data[cpu]
+          cpuDict.usage = Math.round(data[cpu])
           this.CPUUsage.push(cpuDict)
         }
       })
@@ -60,5 +66,7 @@ export default {
 </script>
 
 <style scoped>
-
+.box{
+  align-items: center;
+}
 </style>

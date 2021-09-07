@@ -49,16 +49,16 @@ export default {
     async getFhirStatus() {
       let url = `${process.env.VUE_APP_STATION_API}/status/fhir`;
       axios.get(url).then(response => {
-        this.FhirSeverList = response.data
+        this.FhirSeverList = response.data;
         if (this.FhirSeverList.length >0){
-          this.FhirStatus = true
+          this.FhirStatus = true;
         }
         for (let index in this.FhirSeverList){
           if (this.FhirSeverList[index].status !=="healthy"){
-            this.FhirStatus = false
+            this.FhirStatus = false;
           }
         }
-      })
+      });
     },
   }
 }

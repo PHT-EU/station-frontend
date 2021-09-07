@@ -39,8 +39,7 @@ export default {
     async getMemoryStatus() {
       let url = `${process.env.VUE_APP_STATION_API}/status/total_memory_util`;
       axios.get(url).then(response => {
-        this.MemoryUsage = response.data
-        console.log(response.data)
+        this.MemoryUsage = response.data;
       })
     },
   }

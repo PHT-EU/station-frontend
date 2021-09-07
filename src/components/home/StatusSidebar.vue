@@ -29,6 +29,9 @@
       <li>
         <DiskStatus></DiskStatus>
       </li>
+      <li>
+        <DockerContainerStatus></DockerContainerStatus>
+      </li>
     </ul>
   </aside>
 </template>
@@ -41,9 +44,10 @@ import MinIOStatus from "@/components/station/MinIOStatus";
 import MemoryStatus from "@/components/station/MemoryStatus";
 import CPUStatus from "@/components/station/CPUStatus";
 import DiskStatus from "@/components/station/DiskStatus";
+import DockerContainerStatus from "@/components/station/DockerContainerStatus";
 export default {
   name: "StatusSidebar",
-  components: {AirflowStatus, HarborStatus, MinIOStatus, FhirStatus, MemoryStatus, CPUStatus, DiskStatus
+  components: {AirflowStatus, HarborStatus, MinIOStatus, FhirStatus, MemoryStatus, CPUStatus, DiskStatus, DockerContainerStatus
   },
 
 }
