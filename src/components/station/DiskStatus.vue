@@ -14,10 +14,14 @@
     </header>
     <div  v-if="MoreInformation === true" class="card-content">
       <div class="content">
+        <div class="block has-text-left">
+          Total:  <strong>{{Total}}</strong> GB<br>
+          Free: <strong>{{Free}}</strong> GB<br>
+          Used: <strong>{{Used}}</strong> GB<br>
+        </div>
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -29,6 +33,9 @@ export default {
     return{
       MoreInformation: false,
       DiskUsage: NaN,
+      Free: NaN,
+      Used: NaN,
+      Total: NaN,
     }
   },
   created() {
@@ -40,7 +47,9 @@ export default {
       let url = `${process.env.VUE_APP_STATION_API}/status/total_disk_util`;
       axios.get(url).then(response => {
         this.DiskUsage = response.data["percent"];
-        console.log(response.data);
+        this.Free = Math.round(response.data["free"]/Math.pow(10,9));
+        this.Used = Math.round(response.data["used"]/Math.pow(10,9));
+        this.Total = this.Free+ this.Used;
       })
     },
   }
