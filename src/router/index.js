@@ -3,6 +3,7 @@ import Home from '../views/Home.vue'
 import Trains from "@/views/Trains";
 import Data from "@/views/Data";
 import Settings from "@/views/Settings";
+import LocalTrain from "@/views/LocalTrain";
 
 const routes = [
     {
@@ -14,6 +15,11 @@ const routes = [
         path: '/trains',
         name: 'Trains',
         component: Trains
+    },
+    {
+        path: '/LocalTrain',
+        name: 'LocalTrain',
+        component: LocalTrain
     },
     {
         path: '/data',

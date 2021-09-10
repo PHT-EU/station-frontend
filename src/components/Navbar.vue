@@ -18,6 +18,9 @@
         <router-link to="/trains" class="navbar-item">
           Trains
         </router-link>
+        <router-link to="/LocalTrain" class="navbar-item">
+          Local Trains
+        </router-link>
         <router-link to="/data" class="navbar-item">
           Data
         </router-link>
