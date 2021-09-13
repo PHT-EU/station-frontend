@@ -19,22 +19,24 @@ export default {
       console.log("upload")
       this.file = this.$refs.file.files[0];
     },
-    submitFile(){
-      let formData = new FormData();
-      formData.append('endpoint', this.file);
-      axios.post( `${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`,
+    async submitFile() {
+      const formData = new FormData();
+      //formData.append('endpoint', this.file);
+      formData.append('bytes', this.file);
+      console.log(`${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`)
+      await axios.post(`${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`,
           formData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
             }
           }
-      ).then(function(){
-        console.log('SUCCESS!!');
-      })
-          .catch(function(){
-            console.log('FAILURE!!');
-          });
+      ).then(function () {
+            console.log('file up');
+          }
+      ).catch(function () {
+        console.log('failed');
+      });
     },
   }
 }
