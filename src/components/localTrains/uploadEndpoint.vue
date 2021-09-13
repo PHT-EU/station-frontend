@@ -21,11 +21,9 @@ export default {
     },
     async submitFile() {
       const formData = new FormData();
-      //formData.append('endpoint', this.file);
-      formData.append('bytes', this.file);
-      console.log(`${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`)
-      await axios.post(`${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`,
-          formData,
+      formData.append('upload_file', this.file);
+      let post_url =`${process.env.VUE_APP_STATION_API}/local_trains/upload_endpoint`;
+      await axios.post(post_url, formData,
           {
             headers: {
               'Content-Type': 'multipart/form-data'
