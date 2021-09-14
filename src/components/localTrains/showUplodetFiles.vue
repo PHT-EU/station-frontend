@@ -26,7 +26,7 @@ export default {
     loadFileNames(){
       let url = `${process.env.VUE_APP_STATION_API}/local_trains/get_all_uploaded_file_name`;
       axios.get(url).then(response => {
-        this.dataSets = response.data;
+        this.files = response.data;
       });
     },
     emit(file){

@@ -17,7 +17,6 @@
         <div v-for="CPU in CPUUsage" v-bind:key="CPU.id">
           <div class="box">
             logical core {{CPU.id}}: {{CPU.usage}}% <progress class="progress is-success" :value="CPU.usage" max="100"/>
-<!--            <CircleProgress :percent="CPU.usage" :viewport="true" :show-percent="true" fill-color:="#46c875" :size="80" />-->
           </div>
         </div>
       </div>
@@ -36,8 +35,7 @@ export default {
     return{
       MoreInformation: false,
       CPUUsage: [],
-      CPUUsageMean: 100,
-      percent: 50,
+      CPUUsageMean: NaN,
     }
   },
   created() {

@@ -1,6 +1,7 @@
 <template>
-    <p class="menu-label is-hidden-touch">Status Local Services</p>
-    <ul class="menu-list is-hidden-touch">
+  <div class="column is-hidden-desktop">
+    <p class="menu-label is-hidden-desktop">Status Local Services</p>
+    <ul class="menu-list is-hidden-desktop">
       <li>
         <AirflowStatus></AirflowStatus>
       </li>
@@ -11,14 +12,14 @@
         <FhirStatus></FhirStatus>
       </li>
     </ul>
-    <p class="menu-label is-hidden-touch">Status Global Services</p>
-    <ul class="menu-list is-hidden-touch">
-        <li>
-          <HarborStatus></HarborStatus>
-        </li>
+    <p class="menu-label is-hidden-desktop">Status Global Services</p>
+    <ul class="menu-list is-hidden-desktop">
+      <li>
+        <HarborStatus></HarborStatus>
+      </li>
     </ul>
-    <p class="menu-label is-hidden-touch">Station Hardware Resources </p>
-    <ul class="menu-list is-hidden-touch">
+    <p class="menu-label is-hidden-desktop">Station Hardware Resources </p>
+    <ul class="menu-list is-hidden-desktop">
       <li>
         <MemoryStatus></MemoryStatus>
       </li>
@@ -32,6 +33,7 @@
         <DockerContainerStatus></DockerContainerStatus>
       </li>
     </ul>
+  </div>
 </template>
 
 <script>
@@ -44,7 +46,7 @@ import CPUStatus from "@/components/station/CPUStatus";
 import DiskStatus from "@/components/station/DiskStatus";
 import DockerContainerStatus from "@/components/station/DockerContainerStatus";
 export default {
-  name: "StatusSidebar",
+  name: "StatusMobile",
   components: {AirflowStatus, HarborStatus, MinIOStatus, FhirStatus, MemoryStatus, CPUStatus, DiskStatus, DockerContainerStatus
   },
 
