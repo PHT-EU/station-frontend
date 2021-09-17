@@ -1,11 +1,9 @@
 <template>
   <div class="line-numbers">
     <pre :class="language_class">
-      <code>
-        {{endpoint_code}}
-<!--        <p v-for="line in lines_code" :key="line">{{line}}
-        </p>-->
-
+     <code><!-- The <p> is not suportet to be inside of code but was needed to get formation {{endpoint_code}}} did not work  -->
+        <p v-for="line in lines_code" :key="line">{{line}}
+        </p>
       </code>
     </pre>
   </div>
@@ -32,16 +30,16 @@ export default {
   },
   props: {  fileName: String},
   watch: {
-    fileName: function (newVal, oldVal) {
-      console.log(oldVal)
-      console.log("new props")
+    fileName: function (newVal) {
       this.loadFile(newVal)
     }
   },
   methods:{
     async loadFile(fileName){
-      let url = `${process.env.VUE_APP_STATION_API}/local_trains/get_file/`+fileName;
-      await axios.get(url).then(response => {
+      this.endpoint_code= ""
+      this.lines_code=[]
+      let url = `${process.env.VUE_APP_STATION_API}/local_trains/get_file`;
+      await axios.get(url,{ params: { file_name: fileName } }).then(response => {
         this.endpoint_code = response.data;
         this.lines_code = response.data.split(/\r?\n/);
       });
@@ -55,14 +53,7 @@ export default {
     },
 
   },
-  async mounted() {
-    await this.loadFile(this.fileName);
-    Prism.highlightAll();
-  },
-  async created() {
-    await this.loadFile(this.fileName);
-    Prism.highlightAll();
-  }
+
 
 }
 </script>

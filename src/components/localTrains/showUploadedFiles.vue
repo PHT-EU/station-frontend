@@ -30,9 +30,11 @@ export default {
     async loadFileNames(){
       let url = `${process.env.VUE_APP_STATION_API}/local_trains/get_all_uploaded_file_names`;
       await axios.get(url).then(response => {
-        this.files = response.data.files;
+        let data = response.data.files;
+        for (let index in data ){
+          this.files.push(data[index]["_object_name"]);
+        }
       });
-      console.log(this.files)
 
     },
     selectFile(file){
