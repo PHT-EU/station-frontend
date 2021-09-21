@@ -36,30 +36,43 @@ export default {
     }
   },
   methods: {
-    async updateTrains(refresh) {
+    async updateTrains() {
       console.log(process.env.VUE_APP_STATION_API)
-      let url = `${process.env.VUE_APP_STATION_API}/station/trains`;
-      if (refresh) {
-        url = `${process.env.VUE_APP_STATION_API}/station/trains?refresh=true`;
-      }
 
-      axios.get(url)
+      let dockerTrainsUrl = `${process.env.VUE_APP_STATION_API}/trains/docker`;
+      let federatedTrainsUrl = `${process.env.VUE_APP_STATION_API}/trains/federated`;
+
+      axios.get(dockerTrainsUrl)
           .then(response => {
-                this.dockerTrains = response.data["docker_trains"]
-                this.federatedTrains = response.data["federated_trains"]
+                this.dockerTrains = response.data.map(
+                    (dockerTrain) => {
+                      dockerTrain["type"] = "docker";
+                      return dockerTrain;
+                    }
+                );
               }
-          )
+          );
+      axios.get(federatedTrainsUrl)
+          .then(response => {
+                this.federatedTrains = response.data.map(
+                    (federatedTrain) => {
+                      federatedTrain["type"] = "federated";
+                      return federatedTrain;
+                    }
+                );
+              }
+          );
     },
     updateSelectedTrain(trainId) {
       let allTrains = this.dockerTrains.concat(this.federatedTrains);
       this.selectedTrain = allTrains.find(train => {
-        return train.train_id === trainId
-      }
+            return train.train_id === trainId
+          }
       )
     }
   },
   mounted() {
-    this.updateTrains(true);
+    this.updateTrains();
   }
 }
 </script>

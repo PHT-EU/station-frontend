@@ -1,13 +1,25 @@
 <template>
-Overview
+<div class="container columns">
+  <div class="column is-one-quarter">
+    Previous Executions
+  </div>
+  <div class="column">
+    <div class="is-inline-block">
+
+    </div>
+
+
+  </div>
+</div>
 </template>
 
 <script>
 export default {
   name: "OverviewTab",
   props: {
-    train: Object
-  }
+    train: Object,
+    configs: Array
+  },
 }
 </script>
 

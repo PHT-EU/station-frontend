@@ -54,7 +54,8 @@ export default {
     return {
       selectedTab: "overview",
       trainState: Object,
-      trainConfig: Object
+      trainConfig: Object,
+      configs: Array
     }
   },
   methods: {
@@ -86,11 +87,37 @@ export default {
                 this.trainConfig = response.data;
               }
           )
+    },
+
+    async getConfigs() {
+      let url = null;
+      console.log(this.train)
+      await this.train;
+      if (this.train.type === "docker") {
+        url = `${process.env.VUE_APP_STATION_API}/trains/docker/configs/`;
+      } else {
+        url = `${process.env.VUE_APP_STATION_API}/trains/federated/configs/`
+      }
+
+      axios.get(url)
+          .then(response => {
+                this.configs = response.data;
+                console.log(this.configs)
+              }
+          )
+
     }
+
   },
   mounted() {
     this.getTrainState();
     this.getTrainConfig();
+    this.getConfigs();
+  },
+  created() {
+    this.getTrainState();
+    this.getTrainConfig();
+    this.getConfigs();
   }
 }
 </script>
