@@ -42,19 +42,46 @@
     </div>
 
     <div class="field">
-      <div class="control">
-        <label class="checkbox">
-          <input type="checkbox">
-          Auto execute
-        </label>
-      </div>
+      <label class="label">Airflow Environment Variables</label>
     </div>
+
+    <div class="field is-horizontal">
+      <div class="field-body">
+        <div class="field">
+          <p class="control is-expanded has-icons-left">
+            <input class="input" type="text" placeholder="Key">
+            <span class="icon is-small is-left">
+              <i class="fas fa-key"></i>
+            </span>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control is-expanded has-icons-left has-icons-right">
+            <input class="input is-success" type="text" placeholder="Value">
+            <span class="icon is-small is-left">
+              <i class="fas fa-equals"></i>
+            </span>
+          </p>
+        </div>
+
+        <div class="field">
+          <button class="button">
+            <span class="icon is-small">
+              <i class="fas fa-plus"></i>
+            </span>
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+
 
     <div class="field">
       <div class="control">
         <label class="checkbox">
           <input type="checkbox">
-          I agree to the <a href="#">terms and conditions</a>
+          Auto execute
         </label>
       </div>
     </div>
@@ -86,20 +113,20 @@ export default {
       configs: null,
       selectedConfig: null,
       configReady: false,
+      configEnvVars: [{"key": "", "value": "", "is_last": true}]
     }
   },
 
   computed: {
     airflowConfig() {
-      if( this.selectedConfig) {
+      if (this.selectedConfig) {
         return JSON.stringify(this.selectedConfig["airflow_config_json"], null, "  ");
-      }
-      else {
+      } else {
         return null;
       }
     },
     configName() {
-      return this.selectedConfig? this.selectedConfig.name : null;
+      return this.selectedConfig ? this.selectedConfig.name : null;
     }
   },
 
