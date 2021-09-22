@@ -2,11 +2,11 @@
   <div class="container" style="max-width: 700px">
     <div class="field has-addons">
       <div class="field-label is-normal">
-        <label class="label">Select an existing configuration: </label>
+        <label class="label">Select an existing configuration as template: </label>
       </div>
       <div class="control">
         <div class="select">
-          <select name="configSelect" v-model="selectedConfig" @change="onConfigSelect($event)">
+          <select name="configSelect" v-model="selectedConfig">
             <option v-for="config in configs" :value="config" :key="config.name">
               {{ config.name }}
             </option>
@@ -21,47 +21,32 @@
     <div class="field">
       <label class="label">Configuration Name</label>
       <div class="control has-icons-left has-icons-right">
-        <input class="input is-success" type="text" placeholder="Enter configuration name">
+        <input class="input is-success" type="text" placeholder="Enter configuration name" v-model="configName">
         <span class="icon is-small is-left">
       <i class="fas fa-cog"></i>
+          <!-- todo name validation -->
     </span>
         <span class="icon is-small is-right">
       <i class="fas fa-check"></i>
     </span>
       </div>
-      <p class="help is-success">This username is available</p>
+      <p class="help is-success">This config name is available</p>
     </div>
 
-    <div class="field">
-      <label class="label">Email</label>
-      <div class="control has-icons-left has-icons-right">
-        <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
-        <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-        <span class="icon is-small is-right">
-      <i class="fas fa-exclamation-triangle"></i>
-    </span>
-      </div>
-      <p class="help is-danger">This email is invalid</p>
-    </div>
 
     <div class="field">
-      <label class="label">Subject</label>
+      <label class="label">Airflow Configuration</label>
       <div class="control">
-        <div class="select">
-          <select>
-            <option>Select dropdown</option>
-            <option>With options</option>
-          </select>
-        </div>
+        <textarea class="textarea" placeholder="Airflow configuration json" :value="airflowConfig"></textarea>
       </div>
     </div>
 
     <div class="field">
-      <label class="label">Message</label>
       <div class="control">
-        <textarea class="textarea" placeholder="Textarea"></textarea>
+        <label class="checkbox">
+          <input type="checkbox">
+          Auto execute
+        </label>
       </div>
     </div>
 
@@ -74,112 +59,14 @@
       </div>
     </div>
 
-    <div class="field">
-      <div class="control">
-        <label class="radio">
-          <input type="radio" name="question">
-          Yes
-        </label>
-        <label class="radio">
-          <input type="radio" name="question">
-          No
-        </label>
-      </div>
-    </div>
 
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-link">Submit</button>
+        <button class="button is-link">Save</button>
       </div>
       <div class="control">
-        <button class="button is-link is-light">Cancel</button>
+        <button class="button is-link is-light">Discard</button>
       </div>
-    </div>
-  </div>
-  <div class="field is-horizontal is-align-content-start">
-    <div class="field-label is-normal container">
-      <label class="label">Select an existing configuration</label>
-    </div>
-    <div class="control">
-      <input class="input" type="text" placeholder="Text input">
-    </div>
-  </div>
-
-  <div class="field is-horizontal p-5">
-    <label class="label">Username</label>
-    <div class="control has-icons-left has-icons-right">
-      <input class="input is-success" type="text" placeholder="Text input" value="bulma">
-      <span class="icon is-small is-left">
-      <i class="fas fa-user"></i>
-    </span>
-      <span class="icon is-small is-right">
-      <i class="fas fa-check"></i>
-    </span>
-    </div>
-    <p class="help is-success">This username is available</p>
-  </div>
-
-  <div class="field">
-    <label class="label">Email</label>
-    <div class="control has-icons-left has-icons-right">
-      <input class="input is-danger" type="email" placeholder="Email input" value="hello@">
-      <span class="icon is-small is-left">
-      <i class="fas fa-envelope"></i>
-    </span>
-      <span class="icon is-small is-right">
-      <i class="fas fa-exclamation-triangle"></i>
-    </span>
-    </div>
-    <p class="help is-danger">This email is invalid</p>
-  </div>
-
-  <div class="field">
-    <label class="label">Subject</label>
-    <div class="control">
-      <div class="select">
-        <select>
-          <option>Select dropdown</option>
-          <option>With options</option>
-        </select>
-      </div>
-    </div>
-  </div>
-
-  <div class="field">
-    <label class="label">Message</label>
-    <div class="control">
-      <textarea class="textarea" placeholder="Textarea"></textarea>
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="control">
-      <label class="checkbox">
-        <input type="checkbox">
-        I agree to the <a href="#">terms and conditions</a>
-      </label>
-    </div>
-  </div>
-
-  <div class="field">
-    <div class="control">
-      <label class="radio">
-        <input type="radio" name="question">
-        Yes
-      </label>
-      <label class="radio">
-        <input type="radio" name="question">
-        No
-      </label>
-    </div>
-  </div>
-
-  <div class="field is-grouped">
-    <div class="control">
-      <button class="button is-link">Submit</button>
-    </div>
-    <div class="control">
-      <button class="button is-link is-light">Cancel</button>
     </div>
   </div>
 
@@ -198,6 +85,21 @@ export default {
     return {
       configs: null,
       selectedConfig: null,
+      configReady: false,
+    }
+  },
+
+  computed: {
+    airflowConfig() {
+      if( this.selectedConfig) {
+        return JSON.stringify(this.selectedConfig["airflow_config_json"], null, "  ");
+      }
+      else {
+        return null;
+      }
+    },
+    configName() {
+      return this.selectedConfig? this.selectedConfig.name : null;
     }
   },
 
@@ -207,13 +109,11 @@ export default {
         this.configs = await getDockerTrainConfigs();
       }
     },
-    onConfigSelect(event) {
-      console.log(event.target.value)
-    }
   },
 
   async mounted() {
     await this.getConfigs();
+    this.configReady = true;
   }
 
 }
