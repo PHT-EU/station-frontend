@@ -45,7 +45,7 @@
       <label class="label">Airflow Environment Variables</label>
     </div>
 
-    <div v-for="(envVar, index) in airflowConfigEnvVars" class="field is-horizontal"  :key="index">
+    <div v-for="(envVar, index) in airflowConfigEnvVars" class="field is-horizontal" :key="index">
       <div class="field-body">
         <div class="field">
           <p class="control is-expanded has-icons-left">
@@ -78,7 +78,7 @@
     <div class="field">
       <div class="control">
         <label class="checkbox">
-          <input type="checkbox">
+          <input type="checkbox" v-model="autoExecute">
           Auto execute
         </label>
       </div>
@@ -87,7 +87,7 @@
 
     <div class="field is-grouped">
       <div class="control">
-        <button class="button is-link">Save</button>
+        <button class="button is-link" @click="submitConfig">Save</button>
       </div>
       <div class="control">
         <button class="button is-link is-light">Discard</button>
@@ -99,7 +99,7 @@
 
 <script>
 
-import {getDockerTrainConfigs} from "@/api/dockerTrainsApi";
+import {getDockerTrainConfigs, createDockerTrainConfig} from "@/api/dockerTrainsApi";
 
 export default {
   name: "ConfigurationTab",
@@ -111,7 +111,10 @@ export default {
       configs: null,
       selectedConfig: null,
       configReady: false,
-      airflowConfigEnvVars: [{"key": null, "value": null}]
+      airflowConfigEnvVars: [{"key": null, "value": null}],
+      cpuRequirements: null,
+      gpuRequirements: null,
+      autoExecute: false
     }
   },
 
@@ -136,23 +139,48 @@ export default {
       }
 
     },
+    makeAirflowConfig() {
+      let airflowConfig = null;
+      if (this.airflowConfig === null) {
+        airflowConfig = {
+          "env": {}
+        }
+      } else {
+        airflowConfig = this.selectedConfig["airflow_config_json"]
+      }
+      for (const envVar in this.airflowConfigEnvVars) {
+        if (envVar.key != null) {
+          airflowConfig["env"][envVar.key] = envVar.value;
+        }
+      }
+
+      return airflowConfig
+    },
+    makeConfig() {
+      return {
+        name: this.configName,
+        airflow_config_json: this.makeAirflowConfig(),
+        cpu_requirements: {},
+        gpu_requirements: {},
+        auto_execute: this.autoExecute
+      }
+    },
+
+    async submitConfig() {
+      const config = this.makeConfig();
+      const resp = await createDockerTrainConfig(config);
+      console.log(resp)
+    },
 
     addEnvironmentVariable() {
-      let newVar = {"key": null, "value": null};
-      this.airflowConfigEnvVars.push(newVar);
+      this.airflowConfigEnvVars.push({"key": null, "value": null});
     },
-
-    updateEnvironmentVariableKey(index, value){
-      this.airflowConfigEnvVars[index].key = value;
-    },
-    updateEnvironmentVariableValue(index, value){
-      this.airflowConfigEnvVars[index].value = value;
-    }
   },
 
   watch: {
     train() {
       this.getConfigs();
+      this.configReady = true;
     }
   },
 
