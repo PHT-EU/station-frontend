@@ -19,6 +19,8 @@ import 'prismjs/components/prism-r'
 import 'prismjs/components/prism-json'
 import 'prismjs/plugins/line-numbers/prism-line-numbers'
 import 'prismjs/plugins/line-numbers/prism-line-numbers.css'
+
+
 export default {
   name: "showCode",
   data(){
@@ -32,6 +34,8 @@ export default {
   watch: {
     fileName: function (newVal) {
       this.loadFile(newVal)
+      console.log("print watch ")
+
     }
   },
   methods:{
@@ -42,8 +46,10 @@ export default {
       await axios.get(url,{ params: { file_name: fileName } }).then(response => {
         this.endpoint_code = response.data;
         this.lines_code = response.data.split(/\r?\n/);
+
       });
       Prism.highlightAll();
+      //console.log("load file")
     },
 
   },
