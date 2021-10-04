@@ -57,7 +57,7 @@
         </div>
         <div class="field">
           <p class="control is-expanded has-icons-left has-icons-right">
-            <input class="input is-success" type="text" placeholder="Value" v-model="envVar.value">
+            <input class="input" type="text" placeholder="Value" v-model="envVar.value">
             <span class="icon is-small is-left">
               <i class="fas fa-equals"></i>
             </span>
@@ -131,8 +131,10 @@ export default {
   methods: {
     async getConfigs() {
       if (this.train.type === "docker") {
+        console.log("Accessing configs");
         this.configs = await getDockerTrainConfigs();
       }
+
     },
 
     addEnvironmentVariable() {
@@ -145,6 +147,12 @@ export default {
     },
     updateEnvironmentVariableValue(index, value){
       this.airflowConfigEnvVars[index].value = value;
+    }
+  },
+
+  watch: {
+    train() {
+      this.getConfigs();
     }
   },
 
