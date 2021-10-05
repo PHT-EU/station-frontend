@@ -2,10 +2,10 @@
   <section class="main-content columns is-fullheight">
     <div  class="is-2 is-hidden-touch column">
       <uploadEndpoint></uploadEndpoint>
-      <showUploadedFiles @file="selectFile"></showUploadedFiles>
+      <showUploadedFiles @file="selectFile"  ></showUploadedFiles>
     </div>
     <div class="container column is-10">
-      <showCode :fileName="fileName"></showCode>
+      <showCode :fileName="fileName" ></showCode>
     </div>
   </section>
 </template>
