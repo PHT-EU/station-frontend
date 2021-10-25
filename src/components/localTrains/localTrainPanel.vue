@@ -18,43 +18,17 @@
           </div>
         </div>
       </div>
-      <div class="panel-block">
-        <p class="control has-icons-left">
-          <input class="input" type="text" placeholder="Search">
-          <span class="icon is-left">
-            <i class="fas fa-search" aria-hidden="true"></i>
-          </span>
-        </p>
-      </div>
-      <p class="panel-tabs">
-        <a v-bind:class="{'is-active': noFilter}" v-on:click="panelFilterClick('reset')">All</a>
-        <a
-            v-on:click="panelFilterClick('active')"
-            v-bind:class="{'is-active': filterActive}">
-          Active
-        </a>
-        <a
-            v-on:click="panelFilterClick('docker')"
-            v-bind:class="{'is-active': filterDocker}">
-          Docker
-        </a>
-      </p>
       <a v-for="(train, idx) in trains" v-bind:key="train.trainId" class="panel-block"
          :class="{'selected': idx === activeIndex}"
          @click="onClickTrain(idx, train.trainId)">
-
-        <span v-if="train.type === 'docker'" class="panel-icon docker-icon"></span>
-        <span v-else class="icon">
-            <i class="fas fa-project-diagram"></i>
-        </span>
-        <span>{{ train.trainId }}</span>
+        <span>{{ train.trainName }}</span>
         <span class="small-circle" v-bind:class="{'green-circle': train.active, 'yellow-circle': !train.active}"></span>
         <!--        TODO add active status indicator-->
       </a>
 
       <div class="panel-block">
-        <button class="button is-link is-outlined is-fullwidth" v-on:click="panelFilterClick('reset')">
-          Reset all filters
+        <button class="button is-link is-outlined is-fullwidth" v-on:click="buttonEvent('reset')">
+          Add New Train
         </button>
       </div>
     </nav>
@@ -63,20 +37,54 @@
 
 <script>
 export default {
+  data() {
+    return{
+      activeIndex: null
+    }
+  },
   name: "localTrainPanel",
   props: {
     localTrains: Array,
   },
-  emits: ['refresh', 'trainSelected'],
+  emits: ['refresh', 'trainSelected', 'addTrain'],
   methods: {
     buttonEvent(event) {
       this.$emit(event);
     },
-  }
+    onClickTrain(idx, trainId) {
+      console.log(this.activeIndex)
+      if (this.activeIndex === idx){
+        this.activeIndex = null;
+      }
+      else {
+        this.activeIndex = idx;
+        this.$emit("trainSelected", trainId);
+      }
 
+    },
+  },
+  computed: {
+    trains() {
+      let trains = [];
+      if (this.localTrains.length >= 1) {
+        for (let i = 0; i < this.localTrains.length; i++) {
+          trains.push({
+                trainId: this.localTrains[i].train_id,
+                trainName: this.localTrains[i].train_name,
+              }
+          )
+        }
+      }
+      return trains
+    }
+  },
 }
 </script>
 
 <style scoped>
-
+.selected {
+  border-color: hsl(204, 86%, 53%);
+  border-style: solid;
+  border-width: 1px;
+}
 </style>

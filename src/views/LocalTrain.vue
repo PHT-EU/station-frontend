@@ -1,9 +1,14 @@
 <template>
   <section class="main-content columns is-fullheight">
     <div  class="is-4 is-hidden-touch column">
-      <localTrainPanel :localTrains="localTrains"></localTrainPanel>
-      <uploadEndpoint></uploadEndpoint>
-      <showUploadedFiles @file="selectFile"  ></showUploadedFiles>
+      <localTrainPanel
+          :localTrains="localTrains"
+          @refresh="loadLocalTrains()"
+      ></localTrainPanel>
+<!--      <uploadEndpoint></uploadEndpoint>
+      <showUploadedFiles
+          @file="selectFile"
+      ></showUploadedFiles> -->
     </div>
     <div class="container column is-10">
       <showCode :fileName="fileName" ></showCode>
@@ -12,17 +17,18 @@
 </template>
 
 <script>
-import uploadEndpoint from "@/components/localTrains/uploadEndpoint";
+//import uploadEndpoint from "@/components/localTrains/uploadEndpoint";
 import showCode from "@/components/localTrains/showCode";
-import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
+//import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
 import localTrainPanel from "@/components/localTrains/localTrainPanel";
+import axios from "axios";
 export default {
   name: "LocalTrain",
-  components: {uploadEndpoint, showCode, showUploadedFiles, localTrainPanel},
+  components: {showCode,  localTrainPanel},
   data() {
     return {
       fileName: "",
-      localTrains: "",
+      localTrains: [],
     }
   },
   methods: {
@@ -30,7 +36,18 @@ export default {
       console.log(file);
       console.log("text");
       this.fileName=file;
-    }
+    },
+    async loadLocalTrains(){
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllLocalTrains`;
+      await axios.get(url).then(response => {
+        this.localTrains = response.data;
+        //console.log(this.localTrains)
+      });
+
+    },
+  },
+  mounted() {
+    this.loadLocalTrains();
   }
 
 }
