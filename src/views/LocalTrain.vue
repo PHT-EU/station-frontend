@@ -1,6 +1,7 @@
 <template>
   <section class="main-content columns is-fullheight">
-    <div  class="is-2 is-hidden-touch column">
+    <div  class="is-4 is-hidden-touch column">
+      <localTrainPanel :localTrains="localTrains"></localTrainPanel>
       <uploadEndpoint></uploadEndpoint>
       <showUploadedFiles @file="selectFile"  ></showUploadedFiles>
     </div>
@@ -14,12 +15,14 @@
 import uploadEndpoint from "@/components/localTrains/uploadEndpoint";
 import showCode from "@/components/localTrains/showCode";
 import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
+import localTrainPanel from "@/components/localTrains/localTrainPanel";
 export default {
   name: "LocalTrain",
-  components: {uploadEndpoint, showCode, showUploadedFiles},
+  components: {uploadEndpoint, showCode, showUploadedFiles, localTrainPanel},
   data() {
     return {
       fileName: "",
+      localTrains: "",
     }
   },
   methods: {

@@ -1,10 +1,16 @@
 <template>
-dwonlode results
+  <button v-on:click="downloadFile()">Download</button>
 </template>
 
 <script>
 export default {
-  name: "downloadResults"
+  name: "downloadResults",
+  methods: {
+    downloadFile(){
+
+    }
+  }
+
 }
 </script>
 
