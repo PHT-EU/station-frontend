@@ -4,7 +4,7 @@
       <div class="panel-heading">
         <div class="columns">
           <div class="column is-centered has-text-left">
-            Trains
+            Local Trains
           </div>
           <div class="column has-text-right">
             <button
@@ -20,15 +20,18 @@
       </div>
       <a v-for="(train, idx) in trains" v-bind:key="train.trainId" class="panel-block"
          :class="{'selected': idx === activeIndex}"
-         @click="onClickTrain(idx, train.trainId)">
+         @click="onClickTrain(idx, train.trainId, train.trainName)">
         <span>{{ train.trainName }}</span>
         <span class="small-circle" v-bind:class="{'green-circle': train.active, 'yellow-circle': !train.active}"></span>
         <!--        TODO add active status indicator-->
       </a>
 
       <div class="panel-block">
-        <button class="button is-link is-outlined is-fullwidth" v-on:click="buttonEvent('reset')">
+        <button class="button is-link is-outlined is-fullwidth" v-on:click="buttonEvent('addTrain')">
           Add New Train
+        </button>
+        <button class="button is-link is-outlined is-fullwidth" v-on:click="removeTrain()">
+          Remove Selected train
         </button>
       </div>
     </nav>
@@ -36,10 +39,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   data() {
     return{
-      activeIndex: null
+      activeIndex: null,
+      activeTrain: null,
+      activeName:null,
     }
   },
   name: "localTrainPanel",
@@ -51,17 +58,39 @@ export default {
     buttonEvent(event) {
       this.$emit(event);
     },
-    onClickTrain(idx, trainId) {
-      console.log(this.activeIndex)
+    onClickTrain(idx, trainId, trainName) {
       if (this.activeIndex === idx){
         this.activeIndex = null;
+        this.activeTrain = null;
+        this.activeName = null
       }
       else {
         this.activeIndex = idx;
+        this.activeTrain = trainId;
+        this.activeName = trainName;
         this.$emit("trainSelected", trainId);
+
       }
 
     },
+    async removeTrain(){
+      if (this.activeIndex != null) {
+        console.log(this.localTrains)
+        console.log(this.activeTrain)
+        let url = process.env.VUE_APP_STATION_API + "/localTrains/deleteTrain/" +this.activeTrain;
+        console.log(url)
+        await axios.delete(url).then(response => {
+          console.log(response.data);
+        });
+        this.$emit('refresh')
+        this.activeIndex = null;
+        this.activeTrain = null;
+        this.activeName = null;
+      }
+      else {
+        console.log("no train selected")
+      }
+    }
   },
   computed: {
     trains() {
