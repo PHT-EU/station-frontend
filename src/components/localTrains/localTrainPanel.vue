@@ -75,10 +75,8 @@ export default {
     },
     async removeTrain(){
       if (this.activeIndex != null) {
-        console.log(this.localTrains)
-        console.log(this.activeTrain)
         let url = process.env.VUE_APP_STATION_API + "/localTrains/deleteTrain/" +this.activeTrain;
-        console.log(url)
+
         await axios.delete(url).then(response => {
           console.log(response.data);
         });
