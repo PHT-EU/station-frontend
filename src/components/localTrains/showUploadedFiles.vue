@@ -4,12 +4,37 @@
       <thead>
         <tr>
           <th>Files</th>
+          <th>Purpose</th>
+          <th>Purpose Selection</th>
           <th>Remove</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="file in files" :key="file" >
           <td v-on:click="selectFile(file)" >{{ file }} </td>
+          <td> {{purposeDict[file]}}</td>
+          <td>
+            <div class="dropdown is-active">
+              <div class="dropdown-trigger">
+                <button class="button" aria-haspopup="true" v-on:click="activateDropDown(file)" aria-controls="dropdown-menu">
+                  <span>Select</span>
+                  <span class="icon is-small">
+                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div class="dropdown-menu" id="dropdown-menu" role="menu" v-if="dropDownDict[file] === true" >
+                <div class="dropdown-content">
+                  <a v-on:click="addQueryFile(file)" class="dropdown-item">
+                    Query
+                  </a>
+                  <a class="dropdown-item">
+                    Entrypoint
+                  </a>
+                </div>
+              </div>
+            </div>
+          </td>
           <td>
             <button class="button is-danger is-outlined "  v-on:click="deleteDataset(file)">
               <i class="far fa-trash-alt"></i>
@@ -19,46 +44,77 @@
       </tbody>
     </table>
   </div>
+  <addFiles :selectedTrain="selectedTrain"></addFiles>
 </template>
 
 <script>
 import axios from "axios";
 
-
+import addFiles from "@/components/localTrains/addFiles";
 
 export default {
   name: "showUploadedFiles",
   data(){
     return {
       files: [],
+      dropDownDict: {},
+      purposeDict:{},
     }
   },
+  components: {addFiles},
   props: {selectedTrain :Object},
   emits: ["file"],
+  watch: {
+    selectedTrain: function (newVal) {
+      console.log(newVal)
+      this.loadFileNames(newVal)
+    }
+  },
   methods:{
     async deleteDataset(file) {
-      let url = `${process.env.VUE_APP_STATION_API}/localTrains/deleteFile/`+ file;
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/deleteFile/`+this.selectedTrain["train_id"]+'/'+ file;
       await axios.delete(url);
       this.files =this.files.filter(item => item !== file)
 
     },
-    async loadFileNames(){
-      let url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllUploadedFileNames/`+this.selectedTrain["train_id"];
+    async loadFileNames(train){
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllUploadedFileNames/`+train["train_id"];
       await axios.get(url).then(response => {
         let data = response.data.files;
+        this.files = []
         for (let index in data ){
-          this.files.push(data[index]["_object_name"]);
+          let filename =data[index]["_object_name"].split('/')[1];
+          this.files.push(filename);
+          this.dropDownDict[filename] = false;
+          if (this.selectedTrain["airflow_config_json"]["query"] ===filename){
+            this.purposeDict[filename]="query";
+          } else if (this.selectedTrain["airflow_config_json"]["entrypoint"] ===filename){
+            this.purposeDict[filename]="entrypoint";
+          } else{
+            this.purposeDict[filename]= "";
+          }
         }
       });
-
     },
     selectFile(file){
       this.$emit("file",file);
-    }
+    },
+    activateDropDown(file){
+      this.dropDownDict[file] = !this.dropDownDict[file];
+    },
+    async addQueryFile(file){
+      let postData ={
+        train_id: this.selectedTrain["train_id"],
+        query: file
+      };
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/addEntrypoint`;
+      await axios.put(url,postData)
+      this.dropDownDict[file] = false;
+    },
 
   },
   mounted() {
-   this.loadFileNames();
+   this.loadFileNames(this.selectedTrain);
   },
 }
 </script>

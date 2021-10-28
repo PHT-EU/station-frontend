@@ -16,7 +16,7 @@
       </li>
       <li @click="selectTab('History')" v-bind:class="{'is-active': selectedTab==='History'}">
         <a>
-          History &nbsp; <i class="fas fa-database"></i>
+          History &nbsp;<i class="fas fa-history"></i>
         </a>
       </li>
       <li @click="selectTab('Files')" v-bind:class="{'is-active': selectedTab==='Files'}">
@@ -28,7 +28,7 @@
   </div>
   <div id="tab-content">
     <configureLocalTrain v-if="selectedTab==='Configure'"  :selectedTrain="selectedTrain" ></configureLocalTrain>
-    <showUploadedFiles v-if="selectedTab==='Files'"  :selectedTrain="selectedTrain" ></showUploadedFiles>
+    <showUploadedFiles v-if="selectedTab==='Files'"  :key="selectedTrain" :selectedTrain="selectedTrain" ></showUploadedFiles>
   </div>
 </template>
 
