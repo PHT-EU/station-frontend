@@ -18,6 +18,7 @@
         <localTrainDetails
             :trainID="selectedTrain"
             :localTrains ="localTrains"
+            @refresh="loadLocalTrains()"
         ></localTrainDetails>
       </div>
     </div>

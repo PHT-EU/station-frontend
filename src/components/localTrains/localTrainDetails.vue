@@ -28,7 +28,7 @@
   </div>
   <div id="tab-content">
     <configureLocalTrain v-if="selectedTab==='Configure'"  :selectedTrain="selectedTrain" ></configureLocalTrain>
-    <showUploadedFiles v-if="selectedTab==='Files'"  :key="selectedTrain" :selectedTrain="selectedTrain" ></showUploadedFiles>
+    <showUploadedFiles v-if="selectedTab==='Files'" @refresh="refresh()" :key="selectedTrain" :selectedTrain="selectedTrain" ></showUploadedFiles>
   </div>
 </template>
 
@@ -36,6 +36,7 @@
 
 import configureLocalTrain from "@/components/localTrains/configureLocalTrain";
 import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
+
 export default {
   name: "localTrainDetails",
   data() {
@@ -46,6 +47,7 @@ export default {
       selectedTab: "",
     }
   },
+  emits:['refresh'],
   components: {configureLocalTrain ,showUploadedFiles},
     props: {trainID: String ,
     localTrains: Array },
@@ -58,16 +60,19 @@ export default {
     }
   },
   methods: {
+    refresh() {
+      this.$emit('refresh');
+    },
     getTrain(trainID){
       for (let i = 0; i < this.localTrainsList.length; i++){
-        if(trainID== this.localTrainsList[i]['train_id']){
+        if(trainID == this.localTrainsList[i]['train_id']){
           this.selectedTrain = this.localTrainsList[i];
         }
       }
     },
     selectTab(tap){
       this.selectedTab = tap;
-      console.log( this.selectedTab)
+      console.log(this.selectedTab)
     }
   }
 }

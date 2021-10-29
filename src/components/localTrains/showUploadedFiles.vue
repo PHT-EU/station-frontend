@@ -28,7 +28,7 @@
                   <a v-on:click="addQueryFile(file)" class="dropdown-item">
                     Query
                   </a>
-                  <a class="dropdown-item">
+                  <a v-on:click="addEntrypointFile(file)" class="dropdown-item">
                     Entrypoint
                   </a>
                 </div>
@@ -63,7 +63,7 @@ export default {
   },
   components: {addFiles},
   props: {selectedTrain :Object},
-  emits: ["file"],
+  emits: ["file", "refresh"],
   watch: {
     selectedTrain: function (newVal) {
       console.log(newVal)
@@ -103,13 +103,16 @@ export default {
       this.dropDownDict[file] = !this.dropDownDict[file];
     },
     async addQueryFile(file){
-      let postData ={
-        train_id: this.selectedTrain["train_id"],
-        query: file
-      };
-      let url = `${process.env.VUE_APP_STATION_API}/localTrains/addEntrypoint`;
-      await axios.put(url,postData)
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/addQuery/${this.selectedTrain["train_id"]}/${file}`;
+      await axios.put(url).then(response => {console.log(response)});
       this.dropDownDict[file] = false;
+      this.$emit('refresh');
+    },
+    async addEntrypointFile(file){
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/addEntrypoint/${this.selectedTrain["train_id"]}/${file}`;
+      await axios.put(url).then(response => {console.log(response)});
+      this.dropDownDict[file] = false;
+      this.$emit('refresh');
     },
 
   },
