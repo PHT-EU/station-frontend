@@ -1,9 +1,10 @@
 <template>
-  <div class="column is-6 is-offset-3">
-    <h1>
-      {{selectedTrain['train_id']}}
-    </h1>
-    <addMasterImage :selectedTrain="selectedTrain" ></addMasterImage>
+  <div class="container" style="max-width: 700px">
+<!--    <h1>
+      {{selectedTrainLocal['train_id']}}
+    </h1>-->
+    <br>
+    <addMasterImage :selectedTrain="selectedTrain" @refresh="refreshTrain()" ></addMasterImage>
   </div>
 </template>
 
@@ -13,6 +14,12 @@ export default {
   name: "configureLocalTrain",
   props: {selectedTrain :Object},
   components: {addMasterImage},
+  emits: ['refresh'],
+  methods: {
+    refreshTrain(){
+      this.$emit('refresh');
+    }
+  }
 }
 </script>
 

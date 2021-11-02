@@ -14,9 +14,9 @@
           Configure &nbsp;  <i class="fas fa-table"></i>
         </a>
       </li>
-      <li @click="selectTab('History')" v-bind:class="{'is-active': selectedTab==='History'}">
+      <li @click="selectTab('Run Train')" v-bind:class="{'is-active': selectedTab==='Run Train'}">
         <a>
-          History &nbsp;<i class="fas fa-history"></i>
+          Run Train &nbsp;<i class="fas fa-history"></i>
         </a>
       </li>
       <li @click="selectTab('Files')" v-bind:class="{'is-active': selectedTab==='Files'}">
@@ -27,8 +27,21 @@
     </ul>
   </div>
   <div id="tab-content">
-    <configureLocalTrain v-if="selectedTab==='Configure'"  :selectedTrain="selectedTrain" ></configureLocalTrain>
-    <showUploadedFiles v-if="selectedTab==='Files'" @refresh="refresh()" :key="selectedTrain" :selectedTrain="selectedTrain" ></showUploadedFiles>
+    <configureLocalTrain
+        v-if="selectedTab==='Configure'"
+        :selectedTrain="selectedTrain"
+        @refresh="refreshTrain()"
+    ></configureLocalTrain>
+    <showUploadedFiles
+        v-if="selectedTab==='Files'"
+        @refresh="refresh()"
+        :key="selectedTrain"
+        :selectedTrain="selectedTrain"
+    ></showUploadedFiles>
+    <runTrain
+      v-if="selectedTab==='Run Train'"
+      :selectedTrain="selectedTrain"
+    ></runTrain>
   </div>
 </template>
 
@@ -36,6 +49,7 @@
 
 import configureLocalTrain from "@/components/localTrains/configureLocalTrain";
 import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
+import runTrain from "@/components/localTrains/runTrain";
 
 export default {
   name: "localTrainDetails",
@@ -48,15 +62,15 @@ export default {
     }
   },
   emits:['refresh'],
-  components: {configureLocalTrain ,showUploadedFiles},
-    props: {trainID: String ,
-    localTrains: Array },
+  components: {configureLocalTrain ,showUploadedFiles, runTrain},
+    props: {trainID: String , localTrains: Array },
   watch: {
     trainID: function (newVal) {
       this.getTrain(newVal);
     },
     localTrains: function (newVal) {
       this.localTrainsList = newVal;
+      this.getTrain(this.trainID);
     }
   },
   methods: {
@@ -73,8 +87,11 @@ export default {
     selectTab(tap){
       this.selectedTab = tap;
       console.log(this.selectedTab)
+    },
+    refreshTrain(){
+      this.$emit('refresh');
     }
-  }
+  },
 }
 </script>
 

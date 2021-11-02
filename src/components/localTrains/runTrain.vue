@@ -1,15 +1,18 @@
 <template>
   <button class="button is-success is-outlined" @click="runTrain()">
-    close
+    Run Train
   </button>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "runTrain",
+  props: {selectedTrain :Object},
   methods: {
-    runTrain(){
-      console.log("runTrain")
+    async runTrain(){
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain["train_id"]}/run`;
+      await axios.post(url).then(response => {console.log(response)});
     }
   }
 }
