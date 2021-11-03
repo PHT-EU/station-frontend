@@ -42,6 +42,10 @@
       v-if="selectedTab==='Run Train'"
       :selectedTrain="selectedTrain"
     ></runTrain>
+    <localTrainOverview
+        v-if="selectedTab==='Overview'"
+        :selectedTrain="selectedTrain"
+    ></localTrainOverview>
   </div>
 </template>
 
@@ -50,7 +54,7 @@
 import configureLocalTrain from "@/components/localTrains/configureLocalTrain";
 import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
 import runTrain from "@/components/localTrains/runTrain";
-
+import localTrainOverview from "@/components/localTrains/localTrainOverview";
 export default {
   name: "localTrainDetails",
   data() {
@@ -62,7 +66,7 @@ export default {
     }
   },
   emits:['refresh'],
-  components: {configureLocalTrain ,showUploadedFiles, runTrain},
+  components: {configureLocalTrain ,showUploadedFiles, runTrain, localTrainOverview},
     props: {trainID: String , localTrains: Array },
   watch: {
     trainID: function (newVal) {
@@ -78,11 +82,31 @@ export default {
       this.$emit('refresh');
     },
     getTrain(trainID){
+      let trainSelected = false;
       for (let i = 0; i < this.localTrainsList.length; i++){
         if(trainID == this.localTrainsList[i]['train_id']){
           this.selectedTrain = this.localTrainsList[i];
+          trainSelected=true;
         }
       }
+      // this is needed to prevent problems when no train was selected
+      if (!trainSelected){
+        this.selectedTrain={airflow_config_json: { entrypoint: null,
+        env: null,
+        query: null,
+        repository: "",
+        tag: "",
+        train_id: "",
+        volumes: null},
+        created_at: "",
+        id: NaN,
+        is_active: false,
+        train_id: "",
+        train_name: "No train Selected",
+        updated_at:""}
+        console.log("get train in local trains details ")
+      }
+      console.log("get train in local trains details ")
     },
     selectTab(tap){
       this.selectedTab = tap;

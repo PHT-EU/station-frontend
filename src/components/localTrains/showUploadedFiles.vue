@@ -6,6 +6,7 @@
           <th>Files</th>
           <th>Purpose</th>
           <th>Purpose Selection</th>
+          <th>Download</th>
           <th>Remove</th>
         </tr>
       </thead>
@@ -36,6 +37,12 @@
             </div>
           </td>
           <td>
+            <downloadFile
+              :file="file"
+              :selectedTrain="selectedTrain"
+            ></downloadFile>
+          </td>
+          <td>
             <button class="button is-danger is-outlined "  v-on:click="deleteDataset(file)">
               <i class="far fa-trash-alt"></i>
             </button>
@@ -51,7 +58,7 @@
 import axios from "axios";
 
 import addFiles from "@/components/localTrains/addFiles";
-
+import downloadFile from "@/components/localTrains/downloadFile";
 export default {
   name: "showUploadedFiles",
   data(){
@@ -61,7 +68,7 @@ export default {
       purposeDict:{},
     }
   },
-  components: {addFiles},
+  components: {addFiles, downloadFile},
   props: {selectedTrain :Object},
   emits: ["file", "refresh"],
   watch: {
