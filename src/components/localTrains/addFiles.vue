@@ -19,6 +19,9 @@
                   Choose a file…
                 </span>
               </span>
+              <span class="file-name" v-if="fileSelected===true" >
+                {{selectedFile}}
+              </span>
             </label>
           </div>
           <button class="button is-success is-outlined" v-on:click="submitFile()">Submit</button>
@@ -39,12 +42,17 @@ export default {
   data() {
     return {
       showModal: false,
+      fileSelected: false,
+      selectedFile: "" ,
     }
   },
   props: {selectedTrain:Object },
+  emits: ['newFilesAdded'],
   methods: {
     handleFileUpload(){
       this.files = this.$refs.file.files;
+      this.fileSelected = true;
+      this.selectedFile = this.$refs.file.files[0].name
     },
     async submitFile() {
       console.log(this.files[0])
@@ -58,12 +66,11 @@ export default {
             }
           }
       ).then(function () {
-            console.log('file up');
+            console.log('files added');
           }
-      ).catch(function () {
-        console.log('failed');
-      });
-
+      );
+      this.showModal = false;
+      this.$emit('newFilesAdded');
     }
   }
 }

@@ -51,7 +51,7 @@
       </tbody>
     </table>
   </div>
-  <addFiles :selectedTrain="selectedTrain"></addFiles>
+  <addFiles :selectedTrain="selectedTrain" @newFilesAdded="loadFileNames(selectedTrain)"></addFiles>
 </template>
 
 <script>
@@ -86,6 +86,7 @@ export default {
     },
     async loadFileNames(train){
       let url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllUploadedFileNames/`+train["train_id"];
+      console.log("reload Files")
       await axios.get(url).then(response => {
         let data = response.data.files;
         this.files = []
