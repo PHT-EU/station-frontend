@@ -33,48 +33,64 @@
       <p class="help is-success">This config name is available</p>
     </div>
 
-
-    <div class="field">
-      <label class="label">Airflow Configuration</label>
-      <div class="control">
-        <textarea class="textarea" placeholder="Airflow configuration json" :value="airflowConfig"></textarea>
+    <!-- Actual configuration either json or k/v pairs -->
+    <div>
+      <div id="config-div-header">
+        <button class="button is-small" @click="toggleJson">
+          <span v-if="jsonConfig" class="icon is-small is-primary">
+            <i class="fas fa-list"></i>
+          </span>
+          <span v-else class="icon is-small is-primary brackets-curly">
+        </span>
+        </button>
       </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Airflow Environment Variables</label>
-    </div>
-
-    <div v-for="(envVar, index) in airflowConfigEnvVars" class="field is-horizontal" :key="index">
-      <div class="field-body">
+      <div class="field">
+        <label class="label">Airflow Configuration</label>
+      </div>
+      <div v-if="jsonConfig">
         <div class="field">
-          <p class="control is-expanded has-icons-left">
-            <input class="input" type="text" placeholder="Key" v-model="envVar.key">
-            <span class="icon is-small is-left">
+          <div class="control">
+            <textarea class="textarea" placeholder="Airflow configuration json" :value="airflowConfig"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div v-else>
+        <div>
+          <div class="field">
+            <label class="label">Environment Variables</label>
+          </div>
+
+          <div v-for="(envVar, index) in airflowConfigEnvVars" class="field is-horizontal" :key="index">
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="text" placeholder="Key" v-model="envVar.key">
+                  <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
             </span>
-          </p>
-        </div>
-        <div class="field">
-          <p class="control is-expanded has-icons-left has-icons-right">
-            <input class="input" type="text" placeholder="Value" v-model="envVar.value">
-            <span class="icon is-small is-left">
+                </p>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <input class="input" type="text" placeholder="Value" v-model="envVar.value">
+                  <span class="icon is-small is-left">
               <i class="fas fa-equals"></i>
             </span>
-          </p>
-        </div>
+                </p>
+              </div>
 
-        <div v-if="index === (airflowConfigEnvVars.length - 1)" class="field">
-          <button class="button" @click="addEnvironmentVariable()">
-            <span class="icon is-small">
-              <i class="fas fa-plus"></i>
-            </span>
-          </button>
-        </div>
-      </div>
+              <div v-if="index === (airflowConfigEnvVars.length - 1)" class="field">
+                <button class="button" @click="addEnvironmentVariable()">
+                <span class="icon is-small">
+                  <i class="fas fa-plus"></i>
+                </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div></div>
     </div>
-
-
     <div class="field">
       <div class="control">
         <label class="checkbox">
@@ -114,7 +130,8 @@ export default {
       airflowConfigEnvVars: [{"key": null, "value": null}],
       cpuRequirements: null,
       gpuRequirements: null,
-      autoExecute: false
+      autoExecute: false,
+      jsonConfig: false,
     }
   },
 
@@ -156,6 +173,10 @@ export default {
 
       return airflowConfig
     },
+
+    toggleJson() {
+      this.jsonConfig = !this.jsonConfig;
+    },
     makeConfig() {
       return {
         name: this.configName,
@@ -193,5 +214,19 @@ export default {
 </script>
 
 <style scoped>
+#config-div-header {
+  display: flex;
+  align-items: end;
+  justify-content: end;
+  padding-right: 0.5em;
+}
+
+.brackets-curly {
+  background: url("~@/assets/brackets.png");
+  background-size: cover;
+  height: 1em;
+  width: 1em;
+  display: block;
+}
 
 </style>
