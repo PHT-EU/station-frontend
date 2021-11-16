@@ -47,6 +47,16 @@
       <div class="field">
         <label class="label">Airflow Configuration</label>
       </div>
+      <div class="field">
+        <div class="control">
+          <label class="checkbox">
+            <input type="checkbox" v-model="autoExecute">
+            Auto execute
+          </label>
+        </div>
+      </div>
+
+      <!--  Configuration as json string    -->
       <div v-if="jsonConfig">
         <div class="field">
           <div class="control">
@@ -54,7 +64,7 @@
           </div>
         </div>
       </div>
-
+      <!--   Configuration via key value pairs   -->
       <div v-else>
         <div>
           <div class="field">
@@ -90,14 +100,50 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    <div class="field">
-      <div class="control">
-        <label class="checkbox">
-          <input type="checkbox" v-model="autoExecute">
-          Auto execute
-        </label>
+        <!--     volume configuration  -->
+        <div>
+          <div class="field">
+          </div>
+          <label class="label">Data Volumes</label>
+          <div v-for="(volume, index) in airflowConfigVolumes" class="field is-horizontal" :key="index">
+            <div class="field-body">
+              <div class="field">
+                <p class="control is-expanded has-icons-left">
+                  <input class="input" type="text" placeholder="Origin path" v-model="volume.origin">
+                  <span class="icon is-small is-left">
+              <i class="fas fa-folder"></i>
+            </span>
+                </p>
+              </div>
+              <div class="field">
+                <p class="control is-expanded has-icons-left has-icons-right">
+                  <input class="input" type="text" placeholder="Mount path" v-model="volume.dest">
+                  <span class="icon is-small is-left">
+              <i class="fas fa-folder"></i>
+            </span>
+                </p>
+              </div>
+
+              <div v-if="index === (airflowConfigVolumes.length - 1)" class="field">
+                <button class="button" @click="addDataVolume">
+                <span class="icon is-small">
+                  <i class="fas fa-plus"></i>
+                </span>
+                </button>
+              </div>
+              <div v-else class="field">
+                <div class="control">
+                  <label class="checkbox">
+                    <input type="checkbox" v-model="airflowConfigVolumes[index].write">
+                    Write access
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
       </div>
     </div>
 
@@ -129,6 +175,7 @@ export default {
       selectedConfig: null,
       configReady: false,
       airflowConfigEnvVars: [{"key": null, "value": null}],
+      airflowConfigVolumes: [{"orig": null, "dest": null, "write": false}],
       cpuRequirements: null,
       gpuRequirements: null,
       autoExecute: false,
@@ -197,6 +244,10 @@ export default {
     addEnvironmentVariable() {
       this.airflowConfigEnvVars.push({"key": null, "value": null});
     },
+
+    addDataVolume() {
+      this.airflowConfigVolumes.push({"orig": null, "dest": null, "write": false})
+    }
   },
 
   watch: {
