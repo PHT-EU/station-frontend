@@ -172,6 +172,7 @@ export default {
   data() {
     return {
       configs: null,
+      configName: "",
       selectedConfig: null,
       configReady: false,
       airflowConfigEnvVars: [{"key": null, "value": null}],
@@ -190,9 +191,6 @@ export default {
       } else {
         return null;
       }
-    },
-    configName() {
-      return this.selectedConfig ? this.selectedConfig.name : null;
     }
   },
 
@@ -204,20 +202,47 @@ export default {
       }
 
     },
+    /***
+     * Use this components stored values to create a JSON object to submit to the API
+     * @returns {*}
+     */
     makeAirflowConfig() {
+
       let airflowConfig = null;
       if (this.airflowConfig === null) {
         airflowConfig = {
-          "env": {}
+          "env": {},
+          "volumes": {}
         }
       } else {
         airflowConfig = this.selectedConfig["airflow_config_json"]
       }
+
+      console.log("Environment variables");
+      console.log(this.airflowConfigEnvVars)
       for (const envVar in this.airflowConfigEnvVars) {
-        if (envVar.key != null) {
+        console.log(this.airflowConfigEnvVars[envVar])
+        if (envVar.key) {
+          console.log("Adding environment var");
           airflowConfig["env"][envVar.key] = envVar.value;
         }
       }
+      for (const volume in this.airflowConfigVolumes) {
+        if (!("volumes" in airflowConfig)) {
+          airflowConfig["volumes"] = {}
+        }
+        if (volume.orig != null) {
+
+          airflowConfig["volumes"][volume.orig] = {
+            "bind": volume.dest,
+            "mode": volume.write ? "rw" : "ro"
+          };
+        }
+      }
+
+      airflowConfig["env"] = airflowConfig["env"].valueOf()
+      airflowConfig["volumes"] = airflowConfig["volumes"].valueOf()
+      console.log(airflowConfig)
 
       return airflowConfig
     },
@@ -237,8 +262,10 @@ export default {
 
     async submitConfig() {
       const config = this.makeConfig();
+      console.log("Config");
+      console.log(config);
       const resp = await createDockerTrainConfig(config);
-      console.log(resp)
+      console.log(resp);
     },
 
     addEnvironmentVariable() {
