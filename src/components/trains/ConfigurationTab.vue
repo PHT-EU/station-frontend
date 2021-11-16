@@ -81,7 +81,7 @@
               </div>
 
               <div v-if="index === (airflowConfigEnvVars.length - 1)" class="field">
-                <button class="button" @click="addEnvironmentVariable()">
+                <button class="button" @click="addEnvironmentVariable">
                 <span class="icon is-small">
                   <i class="fas fa-plus"></i>
                 </span>
@@ -89,7 +89,8 @@
               </div>
             </div>
           </div>
-        </div></div>
+        </div>
+      </div>
     </div>
     <div class="field">
       <div class="control">
@@ -115,7 +116,7 @@
 
 <script>
 
-import {getDockerTrainConfigs, createDockerTrainConfig} from "@/api/dockerTrainsApi";
+import {createDockerTrainConfig, getDockerTrainConfigs} from "@/api/dockerTrainsApi";
 
 export default {
   name: "ConfigurationTab",
