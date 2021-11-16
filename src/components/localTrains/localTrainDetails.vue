@@ -24,6 +24,11 @@
           Files &nbsp; <i class="fas fa-database"></i>
         </a>
       </li>
+      <li @click="selectTab('Logs')" v-bind:class="{'is-active': selectedTab==='Logs'}">
+        <a>
+          Logs &nbsp; <i class="fas fa-database"></i>
+        </a>
+      </li>
     </ul>
   </div>
   <div id="tab-content">
@@ -46,6 +51,10 @@
         v-if="selectedTab==='Overview'"
         :selectedTrain="selectedTrain"
     ></localTrainOverview>
+    <showLogs
+        v-if="selectedTab==='Logs'"
+        :selectedTrain="selectedTrain"
+    ></showLogs>
   </div>
 </template>
 
@@ -55,6 +64,7 @@ import configureLocalTrain from "@/components/localTrains/configureLocalTrain";
 import showUploadedFiles from "@/components/localTrains/showUploadedFiles";
 import runTrain from "@/components/localTrains/runTrain";
 import localTrainOverview from "@/components/localTrains/localTrainOverview";
+import showLogs from "@/components/localTrains/showLogs";
 export default {
   name: "localTrainDetails",
   data() {
@@ -66,7 +76,7 @@ export default {
     }
   },
   emits:['refresh'],
-  components: {configureLocalTrain ,showUploadedFiles, runTrain, localTrainOverview},
+  components: {configureLocalTrain ,showUploadedFiles, runTrain, localTrainOverview, showLogs},
     props: {trainID: String , localTrains: Array },
   watch: {
     trainID: function (newVal) {
