@@ -32,6 +32,9 @@
                   <a v-on:click="addEntrypointFile(file)" class="dropdown-item">
                     Entrypoint
                   </a>
+                  <a v-on:click="removePurpose(file)" class="dropdown-item">
+                    no
+                  </a>
                 </div>
               </div>
             </div>
@@ -122,7 +125,18 @@ export default {
       this.dropDownDict[file] = false;
       this.$emit('refresh');
     },
-
+    async removePurpose(file){
+      let key = this.getKey(file);
+      console.log(key);
+      let url = `${process.env.VUE_APP_STATION_API}/localTrains/RemoveConfigElement/${this.selectedTrain["train_id"]}/${key}`;
+      await axios.put(url).then(response => {console.log(response)});
+      this.dropDownDict[file] = false;
+      this.$emit('refresh');
+    },
+    getKey(file){
+      let config = this.selectedTrain["airflow_config_json"];
+      return Object.keys(config).find(key => config[key] === file);
+    }
   },
   mounted() {
    this.loadFileNames(this.selectedTrain);
