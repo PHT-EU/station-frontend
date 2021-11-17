@@ -134,7 +134,7 @@
               <div v-else class="field">
                 <div class="control">
                   <label class="checkbox">
-                    <input type="checkbox" v-model="airflowConfigVolumes[index].write">
+                    <input type="checkbox" v-model="airflowConfigVolumes[index].mode">
                     Write access
                   </label>
                 </div>
@@ -176,7 +176,7 @@ export default {
       selectedConfig: null,
       configReady: false,
       airflowConfigEnvVars: [{"key": null, "value": null}],
-      airflowConfigVolumes: [{"orig": null, "dest": null, "write": false}],
+      airflowConfigVolumes: [{"orig": null, "dest": null, "mode": false}],
       cpuRequirements: null,
       gpuRequirements: null,
       autoExecute: false,
@@ -211,8 +211,8 @@ export default {
       let airflowConfig = null;
       if (this.airflowConfig === null) {
         airflowConfig = {
-          "env": {},
-          "volumes": {}
+          "env": [],
+          "volumes": []
         }
       } else {
         airflowConfig = this.selectedConfig["airflow_config_json"]
@@ -221,10 +221,10 @@ export default {
       console.log("Environment variables");
       console.log(this.airflowConfigEnvVars)
       for (const envVar in this.airflowConfigEnvVars) {
-        console.log(this.airflowConfigEnvVars[envVar])
+        console.log("Environment variable", this.airflowConfigEnvVars[envVar])
         if (envVar.key) {
           console.log("Adding environment var");
-          airflowConfig["env"][envVar.key] = envVar.value;
+          airflowConfig["env"].push(envVar);
         }
       }
       for (const volume in this.airflowConfigVolumes) {
@@ -233,10 +233,11 @@ export default {
         }
         if (volume.orig != null) {
 
-          airflowConfig["volumes"][volume.orig] = {
-            "bind": volume.dest,
+          airflowConfig["volumes"].push({
+            "host_path": volume.orig,
+            "container_path": volume.dest,
             "mode": volume.write ? "rw" : "ro"
-          };
+          });
         }
       }
 
