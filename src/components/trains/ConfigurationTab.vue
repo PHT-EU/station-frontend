@@ -109,7 +109,7 @@
             <div class="field-body">
               <div class="field">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="text" placeholder="Origin path" v-model="volume.origin">
+                  <input class="input" type="text" placeholder="Origin path" v-model="volume.orig">
                   <span class="icon is-small is-left">
               <i class="fas fa-folder"></i>
             </span>
@@ -191,6 +191,19 @@ export default {
       } else {
         return null;
       }
+    },
+    airflowEnvironment() {
+      return this.airflowConfigEnvVars.filter(envVar => envVar.key !== null);
+    },
+    airflowVolumes() {
+      let volumes = this.airflowConfigVolumes.filter(volume => volume.orig !== null);
+      return volumes.map(value => {
+        return {
+          "host_path": value.orig,
+          "container_path": value.dest,
+          "mode": value.mode ? "rw" : "ro"
+        };
+      })
     }
   },
 
@@ -202,62 +215,21 @@ export default {
       }
 
     },
-    /***
-     * Use this components stored values to create a JSON object to submit to the API
-     * @returns {*}
-     */
-    makeAirflowConfig() {
-
-      let airflowConfig = null;
-      if (this.airflowConfig === null) {
-        airflowConfig = {
-          "env": [],
-          "volumes": []
-        }
-      } else {
-        airflowConfig = this.selectedConfig["airflow_config_json"]
-      }
-
-      console.log("Environment variables");
-      console.log(this.airflowConfigEnvVars)
-      for (const envVar in this.airflowConfigEnvVars) {
-        console.log("Environment variable", this.airflowConfigEnvVars[envVar])
-        if (envVar.key) {
-          console.log("Adding environment var");
-          airflowConfig["env"].push(envVar);
-        }
-      }
-      for (const volume in this.airflowConfigVolumes) {
-        if (!("volumes" in airflowConfig)) {
-          airflowConfig["volumes"] = {}
-        }
-        if (volume.orig != null) {
-
-          airflowConfig["volumes"].push({
-            "host_path": volume.orig,
-            "container_path": volume.dest,
-            "mode": volume.write ? "rw" : "ro"
-          });
-        }
-      }
-
-      airflowConfig["env"] = airflowConfig["env"].valueOf()
-      airflowConfig["volumes"] = airflowConfig["volumes"].valueOf()
-      console.log(airflowConfig)
-
-      return airflowConfig
-    },
-
     toggleJson() {
       this.jsonConfig = !this.jsonConfig;
     },
     makeConfig() {
+      let airflowConfig = {
+        "env": this.airflowEnvironment,
+        "volumes": this.airflowVolumes
+      };
+
       return {
-        name: this.configName,
-        airflow_config_json: this.makeAirflowConfig(),
-        cpu_requirements: {},
-        gpu_requirements: {},
-        auto_execute: this.autoExecute
+        "name": this.configName,
+        "airflow_config": airflowConfig,
+        "cpu_requirements": null,
+        "gpu_requirements": null,
+        "auto_execute": this.autoExecute
       }
     },
 

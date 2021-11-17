@@ -10,7 +10,6 @@ export async function getDockerTrainConfigs() {
 
 }
 
-
 export async function updateDockerTrainConfig(config) {
     console.log(config)
     let url = `${process.env.VUE_APP_STATION_API}/trains/docker/config/${config.id}`;
@@ -22,11 +21,12 @@ export async function updateDockerTrainConfig(config) {
 }
 
 export async function createDockerTrainConfig(config) {
-    console.log(config)
+    console.log(config);
+    console.log(JSON.stringify(config));
     let url = `${process.env.VUE_APP_STATION_API}/trains/docker/config`;
 
     return axios.post(url, config).then(response => {
             return response.data;
         }
-    )
+    ).catch(reason => console.log(reason));
 }
