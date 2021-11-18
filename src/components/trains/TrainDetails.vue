@@ -1,5 +1,5 @@
 <template>
-  <div class="container is-fluid">
+  <div class="container">
     <h2 class="is-centered title">
       Train: {{ train ? train['train_id'] : 'test' }}
     </h2>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container" style="max-width: 700px">
+  <div class="container" id="configuration-container">
     <div class="field has-addons">
       <div class="field-label is-normal">
         <label class="label">Select an existing configuration as template: </label>
@@ -35,17 +35,17 @@
 
     <!-- Actual configuration either json or k/v pairs -->
     <div>
-      <div id="config-div-header">
-        <button class="button is-small" @click="toggleJson">
-          <span v-if="jsonConfig" class="icon is-small is-primary">
-            <i class="fas fa-list"></i>
-          </span>
-          <span v-else class="icon is-small is-primary brackets-curly">
-        </span>
-        </button>
-      </div>
-      <div class="field">
+      <div class="field is-grouped">
         <label class="label">Airflow Configuration</label>
+        <div class="control is-expanded" id="toggleButton">
+          <button class="button is-small is-transparent" @click="toggleJson">
+            <span v-if="jsonConfig" class="icon is-small is-primary">
+              <i class="fas fa-list"></i>
+            </span>
+            <span v-else class="icon is-small is-primary brackets-curly"></span>
+          </button>
+        </div>
+
       </div>
       <div class="field">
         <div class="control">
@@ -60,7 +60,7 @@
       <div v-if="jsonConfig">
         <div class="field">
           <div class="control">
-            <textarea class="textarea" placeholder="Airflow configuration json" :value="airflowConfig"></textarea>
+            <textarea class="textarea" placeholder="Airflow configuration json" v-model="airflowConfigJson"></textarea>
           </div>
         </div>
       </div>
@@ -74,7 +74,7 @@
           <div v-for="(envVar, index) in airflowConfigEnvVars" class="field is-horizontal" :key="index">
             <div class="field-body">
               <div class="field">
-                <p class="control is-expanded has-icons-left">
+                <p class="control has-icons-left">
                   <input class="input" type="text" placeholder="Key" v-model="envVar.key">
                   <span class="icon is-small is-left">
               <i class="fas fa-key"></i>
@@ -82,22 +82,21 @@
                 </p>
               </div>
               <div class="field">
-                <p class="control is-expanded has-icons-left has-icons-right">
+                <p class="control has-icons-left has-icons-right">
                   <input class="input" type="text" placeholder="Value" v-model="envVar.value">
                   <span class="icon is-small is-left">
-              <i class="fas fa-equals"></i>
-            </span>
+                    <i class="fas fa-equals"></i>
+                  </span>
                 </p>
               </div>
-
-              <div v-if="index === (airflowConfigEnvVars.length - 1)" class="field">
-                <button class="button" @click="addEnvironmentVariable">
+            </div>
+          </div>
+          <div class="field">
+            <button class="button control" @click="addEnvironmentVariable">
                 <span class="icon is-small">
                   <i class="fas fa-plus"></i>
                 </span>
-                </button>
-              </div>
-            </div>
+            </button>
           </div>
         </div>
         <!--     volume configuration  -->
@@ -109,29 +108,21 @@
             <div class="field-body">
               <div class="field">
                 <p class="control is-expanded has-icons-left">
-                  <input class="input" type="text" placeholder="Origin path" v-model="volume.orig">
+                  <input class="input" type="text" placeholder="Host path" v-model="volume.orig">
                   <span class="icon is-small is-left">
               <i class="fas fa-folder"></i>
             </span>
                 </p>
               </div>
               <div class="field">
-                <p class="control is-expanded has-icons-left has-icons-right">
-                  <input class="input" type="text" placeholder="Mount path" v-model="volume.dest">
+                <p class="control has-icons-left has-icons-right">
+                  <input class="input" type="text" placeholder="Container path" v-model="volume.dest">
                   <span class="icon is-small is-left">
-              <i class="fas fa-folder"></i>
-            </span>
+                  <i class="fas fa-folder"></i>
+                  </span>
                 </p>
               </div>
-
-              <div v-if="index === (airflowConfigVolumes.length - 1)" class="field">
-                <button class="button" @click="addDataVolume">
-                <span class="icon is-small">
-                  <i class="fas fa-plus"></i>
-                </span>
-                </button>
-              </div>
-              <div v-else class="field">
+              <div class="field">
                 <div class="control">
                   <label class="checkbox">
                     <input type="checkbox" v-model="airflowConfigVolumes[index].mode">
@@ -141,14 +132,27 @@
               </div>
             </div>
           </div>
+          <div class="field">
+            <button class="button control" @click="addDataVolume">
+                <span class="icon is-small">
+                  <i class="fas fa-plus"></i>
+                </span>
+            </button>
+          </div>
         </div>
-
-
       </div>
     </div>
 
-
-    <div class="field is-grouped">
+    <!--button controls-->
+    <div class="field">
+      <div class="control p-2">
+        <label class="checkbox">
+          <input type="checkbox" v-model="saveConfig">
+          Save Config
+        </label>
+      </div>
+    </div>
+    <div class="field is-grouped" id="config-button-row">
       <div class="control">
         <button class="button is-link" @click="submitConfig">Save</button>
       </div>
@@ -181,29 +185,25 @@ export default {
       gpuRequirements: null,
       autoExecute: false,
       jsonConfig: false,
+      saveConfig: false,
+      airflowConfigJson: null
     }
   },
 
   computed: {
-    airflowConfig() {
-      if (this.selectedConfig) {
-        return JSON.stringify(this.selectedConfig["airflow_config_json"], null, "  ");
-      } else {
-        return null;
-      }
-    },
     airflowEnvironment() {
       return this.airflowConfigEnvVars.filter(envVar => envVar.key !== null);
     },
     airflowVolumes() {
-      let volumes = this.airflowConfigVolumes.filter(volume => volume.orig !== null);
-      return volumes.map(value => {
-        return {
-          "host_path": value.orig,
-          "container_path": value.dest,
-          "mode": value.mode ? "rw" : "ro"
-        };
-      })
+      return this.airflowConfigVolumes
+          .filter(volume => volume.orig !== null)
+          .map(value => {
+            return {
+              "host_path": value.orig,
+              "container_path": value.dest,
+              "mode": value.mode ? "rw" : "ro"
+            };
+          });
     }
   },
 
@@ -219,10 +219,17 @@ export default {
       this.jsonConfig = !this.jsonConfig;
     },
     makeConfig() {
-      let airflowConfig = {
-        "env": this.airflowEnvironment,
-        "volumes": this.airflowVolumes
-      };
+
+      let airflowConfig;
+      if (this.jsonConfig){
+        airflowConfig = this.airflowConfigJson;
+      }
+      else {
+        airflowConfig = {
+          "env": this.airflowEnvironment,
+          "volumes": this.airflowVolumes
+        };
+      }
 
       return {
         "name": this.configName,
@@ -266,6 +273,14 @@ export default {
 </script>
 
 <style scoped>
+
+#configuration-container {
+  max-width: available;
+  margin-right: 10em;
+  margin-left: 10em;
+}
+
+
 #config-div-header {
   display: flex;
   align-items: end;
@@ -281,4 +296,11 @@ export default {
   display: block;
 }
 
+#config-button-row {
+  padding: 1em;
+}
+
+#toggleButton {
+  text-align: right;
+}
 </style>
