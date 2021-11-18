@@ -94,7 +94,7 @@ export default {
         let data = response.data.files;
         this.files = []
         for (let index in data ){
-          let filename =data[index]["_object_name"].split('/')[1];
+          let filename =data[index]["_object_name"].split('/').slice(1).join('/');
           this.files.push(filename);
           this.dropDownDict[filename] = false;
           if (this.selectedTrain["airflow_config_json"]["query"] ===filename){
