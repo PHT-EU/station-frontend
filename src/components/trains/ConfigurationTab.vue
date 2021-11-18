@@ -47,14 +47,6 @@
         </div>
 
       </div>
-      <div class="field">
-        <div class="control">
-          <label class="checkbox">
-            <input type="checkbox" v-model="autoExecute">
-            Auto execute
-          </label>
-        </div>
-      </div>
 
       <!--  Configuration as json string    -->
       <div v-if="jsonConfig">
@@ -144,8 +136,14 @@
     </div>
 
     <!--button controls-->
-    <div class="field">
-      <div class="control p-2">
+    <div class="field is-grouped">
+      <div class="control">
+        <label class="checkbox">
+          <input type="checkbox" v-model="autoExecute">
+          Auto execute
+        </label>
+      </div>
+      <div class="control">
         <label class="checkbox">
           <input type="checkbox" v-model="saveConfig">
           Save Config
