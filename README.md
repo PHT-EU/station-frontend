@@ -1,3 +1,4 @@
+[![main](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml)
 # Station Frontend 📮
 This repository contains the station frontend application of the Personal Health Train.
 
