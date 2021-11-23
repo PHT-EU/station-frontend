@@ -4,6 +4,9 @@
       <header class="card-header">
         <p class="card-header-title">
           {{log.run_id}}
+          <runProgressBar :runID="log.run_id"
+                          :trainType="trainType"
+          ></runProgressBar>
         </p>
         <button class="card-header-icon" aria-label="more options" @click="log.showLogs=!log.showLogs">
           <span class="icon">
@@ -23,13 +26,16 @@
 
 <script>
 import axios from "axios";
+import runProgressBar from "@/components/GeneralComponents/runProgressBar";
 export default {
   name: "showLogs",
   data(){
     return {
-      logs: []
+      logs: [],
+      trainType : "run_local"
     }
   },
+  components: {runProgressBar},
   watch: {
     selectedTrain: function () {
       this.getLogs()
@@ -44,6 +50,7 @@ export default {
             for(let i = 0; i < this.logs.length; i++){
               this.logs[i]["showLogs"]= false;
             }
+            this.logs.reverse()
       });
     }
   },
@@ -57,5 +64,6 @@ export default {
 .card{
   margin-top: 10px;
 }
+
 
 </style>
