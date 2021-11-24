@@ -1,23 +1,32 @@
 <template>
-  <div v-for="task in taskList" :key="task.task_id">
-    <button v-if="task.state === 'success'" class="button is-success is-outlined">{{taskList.indexOf(task)}}</button>
-    <button v-if="task.state === 'failed'" class="button is-danger is-outlined">{{taskList.indexOf(task)}}</button>
-    <button v-if="task.state === 'upstream_failed'" class="button is-warning is-outlined">{{taskList.indexOf(task)}}</button>
+  <div  class="level">
+    <div v-for="task in taskList" :key="task.task_id">
+<!--      {{taskList.indexOf(task)}}-->
+      <button v-if="task.state === 'success'" v-on:click=" task.showModal= !task.showModal " class="button is-success is-outlined">{{task.task_id}}</button>
+      <button v-if="task.state === 'failed'" v-on:click=" task.showModal= !task.showModal " class="button is-danger is-outlined">{{task.task_id}}</button>
+      <button v-if="task.state === 'upstream_failed'" v-on:click=" task.showModal= !task.showModal " class="button is-warning is-outlined">{{task.task_id}}</button>
+      <logModal :modal-visibility="task.showModal"
+                :runID="runID"
+                :trainType="trainType"
+                :taskID="task.task_id">
+      </logModal>
+    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
-
+import logModal from "./logModal";
 export default {
   name: "runProgressBar",
   data(){
     return {
-      run_information: [],
+      runInformation: [],
       taskList : [],
     }
   },
   props:  {  runID: String, trainType: String},
+  components: {logModal},
   created() {
     this.getRunInformation();
     // TODO activate for live updates
@@ -25,16 +34,19 @@ export default {
   },
 
   methods: {
+
     getRunInformation(){
       console.log(this.runID)
-      // TODO  replace localTrain with the location of teh general getAirfloRun
-      let url = `${process.env.VUE_APP_STATION_API}/localTrains/getAirflowRun/${this.runID}/${this.trainType}`;
+      let url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowRun/${this.runID}/${this.trainType}`;
       axios.get(url).then(response => {
-        this.run_information = response.data ;
+        this.runInformation = response.data ;
         this.taskList=response.data.tasklist.task_instances ;
         this.taskList=this.taskList.sort(function(a, b) {
           return new Date(a.end_date) - new Date(b.end_date);
         });
+        for (let i = 0; i < this.taskList.length; i++){
+          this.taskList["showModal"] =false;
+        }
       });
     }
   },
@@ -45,5 +57,6 @@ export default {
 </script>
 
 <style scoped>
+
 
 </style>

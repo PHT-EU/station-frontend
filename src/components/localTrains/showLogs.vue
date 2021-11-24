@@ -1,13 +1,13 @@
 <template>
-  <div class="column is-8 is-offset-1">
+  <div class="column">
     <div  v-for="log in logs" :key="log.run_id" class="card">
       <header class="card-header">
         <p class="card-header-title">
           {{log.run_id}}
-          <runProgressBar :runID="log.run_id"
-                          :trainType="trainType"
-          ></runProgressBar>
         </p>
+        <runStatusIndicator :runID="log.run_id"
+                            :trainType="trainType"
+        ></runStatusIndicator>
         <button class="card-header-icon" aria-label="more options" @click="log.showLogs=!log.showLogs">
           <span class="icon">
             <i v-if="log.showLogs === false" class="fas fa-angle-down" aria-hidden="true"></i>
@@ -17,6 +17,9 @@
       </header>
       <div v-if="log.showLogs === true" class="card-content">
         <div class="content">
+          <runProgressBar :runID="log.run_id"
+                          :trainType="trainType"
+          ></runProgressBar>
           {{log.log}}
         </div>
       </div>
@@ -27,6 +30,7 @@
 <script>
 import axios from "axios";
 import runProgressBar from "@/components/GeneralComponents/runProgressBar";
+import runStatusIndicator from "../GeneralComponents/runStatusIndicator";
 export default {
   name: "showLogs",
   data(){
@@ -35,7 +39,7 @@ export default {
       trainType : "run_local"
     }
   },
-  components: {runProgressBar},
+  components: {runProgressBar, runStatusIndicator},
   watch: {
     selectedTrain: function () {
       this.getLogs()
