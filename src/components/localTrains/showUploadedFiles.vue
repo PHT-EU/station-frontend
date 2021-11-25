@@ -129,7 +129,9 @@ export default {
             await axios.get(url).then((response) => {
                 const data = response.data.files;
                 this.files = [];
+                // eslint-disable-next-line no-restricted-syntax
                 for (const index in data) {
+                    // eslint-disable-next-line no-underscore-dangle
                     const filename = data[index]._object_name.split('/').slice(1).join('/');
                     this.files.push(filename);
                     this.dropDownDict[filename] = false;

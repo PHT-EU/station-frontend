@@ -112,7 +112,7 @@ export default {
         getTrain(trainID) {
             let trainSelected = false;
             for (let i = 0; i < this.localTrainsList.length; i++) {
-                if (trainID == this.localTrainsList[i].train_id) {
+                if (trainID === this.localTrainsList[i].train_id) {
                     this.selectedTrain = this.localTrainsList[i];
                     trainSelected = true;
                 }
