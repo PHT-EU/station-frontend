@@ -1,15 +1,16 @@
 <template>
-  {{selectedTrain.train_id}}
-  <showLogs :selectedTrain="selectedTrain"></showLogs>
+    {{ selectedTrain.train_id }}
+    <showLogs :selected-train="selectedTrain" />
 </template>
 
 <script>
-import showLogs from "@/components/localTrains/showLogs";
+import showLogs from '@/components/localTrains/showLogs';
+
 export default {
-  name: "localTrainOverview",
-  components: {showLogs},
-  props: {selectedTrain :Object},
-}
+    name: 'LocalTrainOverview',
+    components: { showLogs },
+    props: { selectedTrain: Object },
+};
 </script>
 
 <style scoped>

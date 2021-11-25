@@ -1,50 +1,62 @@
 <template>
-  <div class="container">
-    <div v-if="showModal" @close="showModal = false">
-      <div class="modal-background" @click="showModal = false"></div>
-      <div class="modal-content" >
-        <div class="box">
-          <h1 class="title">Show Task log {{taskID}}</h1>
-          <p>{{log}}</p>
-          <button class="button is-danger is-outlined" @click="showModal = false">
-            close
-          </button>
+    <div class="container">
+        <div
+            v-if="showModal"
+            @close="showModal = false"
+        >
+            <div
+                class="modal-background"
+                @click="showModal = false"
+            />
+            <div class="modal-content">
+                <div class="box">
+                    <h1 class="title">
+                        Show Task log {{ taskID }}
+                    </h1>
+                    <p>{{ log }}</p>
+                    <button
+                        class="button is-danger is-outlined"
+                        @click="showModal = false"
+                    >
+                        close
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  name: "logModal",
-  data(){
-    return {
-      log: "",
-      showModal: false
-
-    }
-  },
-  props: {  runID: String, trainType: String , taskID: String, modalVisibility: Boolean},
-  watch: {
-    modalVisibility: function () {
-      this.showModal = !this.showModal
-      this.getTaskLog()
+    name: 'LogModal',
+    props: {
+        runID: String, trainType: String, taskID: String, modalVisibility: Boolean,
     },
-  },
-  methods: {
-    getTaskLog(){
-      console.log(this.runID)
-      //{dag_id}/{run_id}/{task_id}/{task_try_number}
-      let url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowTaskLog/${this.trainType}/${this.runID}/${this.taskID}/1`;
-      axios.get(url).then(response => {
-        this.log = response.data ;
-      });
-    }
-  },
-}
+    data() {
+        return {
+            log: '',
+            showModal: false,
+        };
+    },
+    watch: {
+        modalVisibility() {
+            this.showModal = !this.showModal;
+            this.getTaskLog();
+        },
+    },
+    methods: {
+        getTaskLog() {
+            console.log(this.runID);
+            // {dag_id}/{run_id}/{task_id}/{task_try_number}
+            const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowTaskLog/${this.trainType}/${this.runID}/${this.taskID}/1`;
+            axios.get(url).then((response) => {
+                this.log = response.data;
+            });
+        },
+    },
+};
 </script>
 
 <style scoped>
