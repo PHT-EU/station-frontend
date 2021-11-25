@@ -1,24 +1,38 @@
-# station-ui
+[![main](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml)
+# Station Frontend 📮
+This repository contains the station frontend application of the Personal Health Train.
 
-## Project setup
-```
+**Table of Contents**
+
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+    - [Production](#production)
+    - [Development](#development)
+
+## Installation
+
+```shell
+git clone https://github.com/PHT-Medic/station-frontend
+cd station-frontend
 yarn install
 ```
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+## Usage
+
+### Production
+
+``` bash
+# build application for production 🛠
+yarn run build
+
+# run application ⚔
+yarn run start
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+### Development
 
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+``` bash
+# serve application on the fly 🔥
+yarn run dev
+````

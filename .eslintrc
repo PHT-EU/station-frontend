@@ -1,0 +1,8 @@
+{
+    "extends": [
+        "@tada5hi/eslint-config-vue3"
+    ],
+    "rules": {
+
+    }
+}
