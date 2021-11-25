@@ -1,26 +1,24 @@
 <template>
-
-  <FileViewer lang="python"></FileViewer>
+    <FileViewer lang="python" />
 <!--  <FileSelector></FileSelector>-->
 </template>
 
 <script>
 // import FileSelector from "@/components/trains/review/FileSelector";
-import FileViewer from "@/components/trains/review/FileViewer";
+import FileViewer from '@/components/trains/review/FileViewer';
 
 export default {
-  name: "ReviewTab",
-  props: {
-    train: Object
-  },
-  components: {
+    name: 'ReviewTab',
+    components: {
     // FileSelector,
-    FileViewer
-  }
-}
+        FileViewer,
+    },
+    props: {
+        train: Object,
+    },
+};
 </script>
 
 <style scoped>
 
 </style>
-

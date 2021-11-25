@@ -1,14 +1,14 @@
 <template>
-History
+    History
 </template>
 
 <script>
 export default {
-  name: "HistoryTab",
-  props: {
-    train: Object
-  }
-}
+    name: 'HistoryTab',
+    props: {
+        train: Object,
+    },
+};
 </script>
 
 <style scoped>
