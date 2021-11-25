@@ -1040,22 +1040,22 @@
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
-"@tada5hi/eslint-config-vue3@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@tada5hi/eslint-config-vue3/-/eslint-config-vue3-0.0.8.tgz#84aa99daa2aaae56891009cd67de8aea3681ece9"
-  integrity sha512-F/Dt8kb+uSKgUTpfKwoBd8E7YFkRDT039t1vSpBaXMPRmhvGvbCyNKLxUCqhdIPNqAUpqSEgrH29vSLYj0mDUg==
+"@tada5hi/eslint-config-vue3@^0.0.14":
+  version "0.0.14"
+  resolved "https://registry.yarnpkg.com/@tada5hi/eslint-config-vue3/-/eslint-config-vue3-0.0.14.tgz#5913d1a69f3d7c3a31175adba5b90aa099de0c22"
+  integrity sha512-FZIU09MpCBccgaRqYblk0lQ//sr48sV5+zQk7O9X6Ehp/CnTWzcVf9YOId1oMM4mqq7LvCpHpInZ7GPpcNSy6A==
   dependencies:
-    "@tada5hi/eslint-config" "^0.0.6"
+    "@tada5hi/eslint-config" "^0.0.12"
     eslint-plugin-vue "^8.1.1"
 
-"@tada5hi/eslint-config@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@tada5hi/eslint-config/-/eslint-config-0.0.6.tgz#fa25844517d75bb7cd3f53da71d810069e2fad17"
-  integrity sha512-XhIkslM2R9+Qerjz3FIr/yBkEAk7Z+VXuBhWe555f851jD3xYOeuf7y/BN26Q5cKz5DUoa6BM90e68oPLX3BlQ==
+"@tada5hi/eslint-config@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/@tada5hi/eslint-config/-/eslint-config-0.0.12.tgz#fbb596a56c73e395045c57f273a82790ff9b5500"
+  integrity sha512-lMi1dppM8PhfpIzQzmk0ZWcsE6Ks8vn//DhjvS4YBsZqqcakbQ1YcBxEtFRRBcsSJVktZ3ozmxBuezwr10bjBA==
   dependencies:
     eslint-config-airbnb-base "^15.0.0"
     eslint-config-prettier "^8.3.0"
-    eslint-plugin-import "^2.25.2"
+    eslint-plugin-import "^2.25.3"
     eslint-plugin-node "^11.1.0"
     eslint-plugin-promise "^5.1.1"
 
@@ -3726,7 +3726,7 @@ eslint-plugin-es@^3.0.0:
     eslint-utils "^2.0.0"
     regexpp "^3.0.0"
 
-eslint-plugin-import@^2.25.2:
+eslint-plugin-import@^2.25.3:
   version "2.25.3"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.25.3.tgz#a554b5f66e08fb4f6dc99221866e57cfff824766"
   integrity sha512-RzAVbby+72IB3iOEL8clzPLzL3wpDrlwjsTBAQXgyp5SeTqqY+0bFubwuo+y/HLhNZcXV4XqTBO4LGsfyHIDXg==
