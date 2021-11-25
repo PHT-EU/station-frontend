@@ -130,9 +130,9 @@ export default {
                 const data = response.data.files;
                 this.files = [];
                 // eslint-disable-next-line no-restricted-syntax
-                for (const index in data) {
+                for (const file in data.values) {
                     // eslint-disable-next-line no-underscore-dangle
-                    const filename = data[index]._object_name.split('/').slice(1).join('/');
+                    const filename = file._object_name.split('/').slice(1).join('/');
                     this.files.push(filename);
                     this.dropDownDict[filename] = false;
                     if (this.selectedTrain.airflow_config_json.query === filename) {
