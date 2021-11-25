@@ -1,76 +1,103 @@
 <template>
-  <div class="tabs is-centered is-medium">
-    <ul>
-      <li @click="selectTab('Fhir')" v-bind:class="{'is-active': selectedTab==='Fhir'}">
-        <a>
-          FHIR &nbsp;  <i class="fas fa-fire-alt"></i>
-        </a>
-      </li>
-      <li @click="selectTab('CSV')" v-bind:class="{'is-active': selectedTab==='CSV'}">
-        <a>
-          CSV &nbsp;  <i class="fas fa-table"></i>
-        </a>
-      </li>
-      <li @click="selectTab('MinIO')" v-bind:class="{'is-active': selectedTab==='MinIO'}">
-        <a>
-          MinIO &nbsp; <i class="fas fa-database"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-  <div id="tab-content">
-    <FhirTable v-if="selectedTab==='Fhir'" :tableData="FhirFilter" @refresh='refresh()'  ></FhirTable>
-    <CSVTable v-if="selectedTab==='CSV'" :tableData="CSVFilter" @refresh='refresh()' ></CSVTable>
-    <MinIOTable v-if="selectedTab==='MinIO'" :tableData="MinIOFilter" @refresh='refresh()' ></MinIOTable>
-    <AddFhir v-if="selectedTab==='Fhir'" @refresh='refresh()'></AddFhir>
-    <AddCSV v-if="selectedTab==='CSV'"  @refresh='refresh()'></AddCSV>
-    <AddMinIO v-if="selectedTab==='MinIO'" @refresh='refresh()'></AddMinIO>
-  </div>
+    <div class="tabs is-centered is-medium">
+        <ul>
+            <li
+                :class="{'is-active': selectedTab==='Fhir'}"
+                @click="selectTab('Fhir')"
+            >
+                <a>
+                    FHIR &nbsp;  <i class="fas fa-fire-alt" />
+                </a>
+            </li>
+            <li
+                :class="{'is-active': selectedTab==='CSV'}"
+                @click="selectTab('CSV')"
+            >
+                <a>
+                    CSV &nbsp;  <i class="fas fa-table" />
+                </a>
+            </li>
+            <li
+                :class="{'is-active': selectedTab==='MinIO'}"
+                @click="selectTab('MinIO')"
+            >
+                <a>
+                    MinIO &nbsp; <i class="fas fa-database" />
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div id="tab-content">
+        <FhirTable
+            v-if="selectedTab==='Fhir'"
+            :table-data="FhirFilter"
+            @refresh="refresh()"
+        />
+        <CSVTable
+            v-if="selectedTab==='CSV'"
+            :table-data="CSVFilter"
+            @refresh="refresh()"
+        />
+        <MinIOTable
+            v-if="selectedTab==='MinIO'"
+            :table-data="MinIOFilter"
+            @refresh="refresh()"
+        />
+        <AddFhir
+            v-if="selectedTab==='Fhir'"
+            @refresh="refresh()"
+        />
+        <AddCSV
+            v-if="selectedTab==='CSV'"
+            @refresh="refresh()"
+        />
+        <AddMinIO
+            v-if="selectedTab==='MinIO'"
+            @refresh="refresh()"
+        />
+    </div>
 </template>
 
 <script>
-import CSVTable from "@/components/data/CSVTable";
-import AddCSV from "@/components/data/AddCSV";
-import FhirTable from "@/components/data/FhirTable";
-import AddFhir from "@/components/data/AddFhir";
-import MinIOTable from "@/components/data/MinIOTable";
-import AddMinIO from "@/components/data/AddMinIO";
+import CSVTable from '@/components/data/CSVTable';
+import AddCSV from '@/components/data/AddCSV';
+import FhirTable from '@/components/data/FhirTable';
+import AddFhir from '@/components/data/AddFhir';
+import MinIOTable from '@/components/data/MinIOTable';
+import AddMinIO from '@/components/data/AddMinIO';
+
 export default {
-  name: "SelectDataType",
-  props: { tableData: Array},
-  emits: ['refresh'],
-  components: {CSVTable, FhirTable, MinIOTable, AddCSV, AddFhir, AddMinIO},
-  data() {
-    return {
-      selectedTab: "Fhir",
-    }
-  },
-  methods: {
-    selectTab(tab) {
-      this.selectedTab = tab;
+    name: 'SelectDataType',
+    components: {
+        CSVTable, FhirTable, MinIOTable, AddCSV, AddFhir, AddMinIO,
     },
-    refresh(){
-      this.$emit('refresh');
+    props: { tableData: Array },
+    emits: ['refresh'],
+    data() {
+        return {
+            selectedTab: 'Fhir',
+        };
     },
-  },
-  computed: {
-    CSVFilter: function(){
-      return  this.tableData.filter(function(row) {
-        return row.storageType === 'csv';
-      });
+    computed: {
+        CSVFilter() {
+            return this.tableData.filter((row) => row.storageType === 'csv');
+        },
+        FhirFilter() {
+            return this.tableData.filter((row) => row.storageType === 'fhir');
+        },
+        MinIOFilter() {
+            return this.tableData.filter((row) => row.storageType === 'minio');
+        },
     },
-    FhirFilter: function(){
-      return  this.tableData.filter(function(row) {
-        return row.storageType === 'fhir';
-      });
+    methods: {
+        selectTab(tab) {
+            this.selectedTab = tab;
+        },
+        refresh() {
+            this.$emit('refresh');
+        },
     },
-    MinIOFilter: function(){
-      return  this.tableData.filter(function(row) {
-        return row.storageType === 'minio';
-      });
-    },
-  }
-}
+};
 </script>
 
 <style scoped>

@@ -1,12 +1,12 @@
 <template>
-  {{selectedTrain["train_id"]}}
+    {{ selectedTrain["train_id"] }}
 </template>
 
 <script>
 export default {
-  name: "localTrainOverview",
-  props: {selectedTrain :Object},
-}
+    name: 'LocalTrainOverview',
+    props: { selectedTrain: Object },
+};
 </script>
 
 <style scoped>
