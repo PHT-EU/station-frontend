@@ -1,4 +1,5 @@
 [![main](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml/badge.svg)](https://github.com/PHT-Medic/station-frontend/actions/workflows/main.yml)
+[![Build image](https://github.com/PHT-Medic/station-frontend/actions/workflows/build.yml/badge.svg)](https://github.com/PHT-Medic/station-frontend/actions/workflows/build.yml)
 # Station Frontend 📮
 This repository contains the station frontend application of the Personal Health Train.
 
