@@ -2,51 +2,35 @@
     <div
         v-for="task in taskList"
         :key="task.task_id"
-        class="content"
     >
-        <div class="dropdown is-right is-active">
-            <div class="dropdown-trigger">
-                <!--      {{taskList.indexOf(task)}}-->
-                <button
-                    v-if="task.state === 'success'"
-                    class="button is-success is-outlined"
-                    @click=" task.showModal= !task.showModal "
-                >
-                    {{ taskList.indexOf(task) }}
-                </button>
-                <button
-                    v-if="task.state === 'failed'"
-                    class="button is-danger is-outlined"
-                    @click=" task.showModal= !task.showModal "
-                >
-                    {{ taskList.indexOf(task) }}
-                </button>
-                <button
-                    v-if="task.state === 'upstream_failed'"
-                    class="button is-warning is-outlined"
-                    @click=" task.showModal= !task.showModal "
-                >
-                    {{ taskList.indexOf(task) }}
-                </button>
-                <logModal
-                    :modal-visibility="task.showModal"
-                    :run-i-d="runID"
-                    :train-type="trainType"
-                    :task-i-d="task.task_id"
-                />
-            </div>
-            <div
-                id="dropdown-menu4"
-                class="dropdown-menu"
-                role="menu"
-            >
-                <div class="dropdown-content">
-                    <div class="dropdown-item">
-                        {{ task.task_id }}
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--      {{taskList.indexOf(task)}}-->
+        <button
+            v-if="task.state === 'success'"
+            class="button is-success is-outlined"
+            @click=" task.showModal= !task.showModal "
+        >
+            {{ taskList.indexOf(task) }}
+        </button>
+        <button
+            v-if="task.state === 'failed'"
+            class="button is-danger is-outlined"
+            @click=" task.showModal= !task.showModal "
+        >
+            {{ taskList.indexOf(task) }}
+        </button>
+        <button
+            v-if="task.state === 'upstream_failed'"
+            class="button is-warning is-outlined"
+            @click=" task.showModal= !task.showModal "
+        >
+            {{ taskList.indexOf(task) }}
+        </button>
+        <logModal
+            :modal-visibility="task.showModal"
+            :run-i-d="runID"
+            :train-type="trainType"
+            :task-i-d="task.task_id"
+        />
     </div>
 </template>
 
@@ -92,5 +76,9 @@ export default {
 </script>
 
 <style scoped>
+.button{
+    float: left;
+    margin-left: 5px;
+}
 
 </style>

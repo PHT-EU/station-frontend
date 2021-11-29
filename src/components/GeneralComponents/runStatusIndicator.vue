@@ -68,5 +68,8 @@ export default {
 </script>
 
 <style scoped>
+.content{
+    margin-top: 20px;
+}
 
 </style>

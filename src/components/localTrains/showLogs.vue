@@ -40,7 +40,7 @@
                     <runProgressBar
                         :run-i-d="log.run_id"
                         :train-type="trainType"
-                    />
+                    /> <br>
                     {{ log.log }}
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container ">
         <div
             v-if="showModal"
             @close="showModal = false"
@@ -13,7 +13,14 @@
                     <h1 class="title">
                         Show Task log {{ taskID }}
                     </h1>
-                    <p>{{ log }}</p>
+                    <div
+                        v-for="lin in log"
+                        :key="lin"
+                        class="log-text"
+                    >
+                        <p>{{ lin }}</p>
+                    </div>
+
                     <button
                         class="button is-danger is-outlined"
                         @click="showModal = false"
@@ -36,7 +43,7 @@ export default {
     },
     data() {
         return {
-            log: '',
+            log: [],
             showModal: false,
         };
     },
@@ -52,7 +59,7 @@ export default {
             // {dag_id}/{run_id}/{task_id}/{task_try_number}
             const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowTaskLog/${this.trainType}/${this.runID}/${this.taskID}/1`;
             axios.get(url).then((response) => {
-                this.log = response.data;
+                this.log = response.data.split(/\r?\n/);
             });
         },
     },
@@ -62,10 +69,11 @@ export default {
 <style scoped>
 .modal-content{
   z-index: 9999;
-  position: absolute;
-  margin-top: 20%;
+  position: fixed;
+  margin-top: 2%;
   left: 50%;
   top: 50%;
+  width: 90%;
   transform: translate(-50%, -50%);
 }
 .modal-background {
@@ -77,5 +85,11 @@ export default {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   transition: opacity 0.3s ease;
+}
+.log-text{
+    text-align:  start;
+}
+.container{
+
 }
 </style>

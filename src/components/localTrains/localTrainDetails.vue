@@ -136,13 +136,10 @@ export default {
                     train_name: 'No train Selected',
                     updated_at: '',
                 };
-                console.log('get train in local trains details ');
             }
-            console.log('get train in local trains details ');
         },
         selectTab(tap) {
             this.selectedTab = tap;
-            console.log(this.selectedTab);
         },
         refreshTrain() {
             this.$emit('refresh');

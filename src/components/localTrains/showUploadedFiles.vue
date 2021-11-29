@@ -86,7 +86,7 @@
     </div>
     <addFiles
         :selected-train="selectedTrain"
-        @newFilesAdded="loadFileNames(selectedTrain)"
+        @new-files-added="loadFileNames(selectedTrain)"
     />
 </template>
 
@@ -110,7 +110,6 @@ export default {
     },
     watch: {
         selectedTrain(newVal) {
-            console.log(newVal);
             this.loadFileNames(newVal);
         },
     },
@@ -125,14 +124,13 @@ export default {
         },
         async loadFileNames(train) {
             const url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllUploadedFileNames/${train.train_id}`;
-            console.log('reload Files');
             await axios.get(url).then((response) => {
                 const data = response.data.files;
                 this.files = [];
                 // eslint-disable-next-line no-restricted-syntax
-                for (const file in data.values) {
+                for (const index in data) {
                     // eslint-disable-next-line no-underscore-dangle
-                    const filename = file._object_name.split('/').slice(1).join('/');
+                    const filename = data[index]._object_name.split('/').slice(1).join('/');
                     this.files.push(filename);
                     this.dropDownDict[filename] = false;
                     if (this.selectedTrain.airflow_config_json.query === filename) {
@@ -153,21 +151,20 @@ export default {
         },
         async addQueryFile(file) {
             const url = `${process.env.VUE_APP_STATION_API}/localTrains/addQuery/${this.selectedTrain.train_id}/${file}`;
-            await axios.put(url).then((response) => { console.log(response); });
+            await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
         async addEntrypointFile(file) {
             const url = `${process.env.VUE_APP_STATION_API}/localTrains/addEntrypoint/${this.selectedTrain.train_id}/${file}`;
-            await axios.put(url).then((response) => { console.log(response); });
+            await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
         async removePurpose(file) {
             const key = this.getKey(file);
-            console.log(key);
             const url = `${process.env.VUE_APP_STATION_API}/localTrains/RemoveConfigElement/${this.selectedTrain.train_id}/${key}`;
-            await axios.put(url).then((response) => { console.log(response); });
+            await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
