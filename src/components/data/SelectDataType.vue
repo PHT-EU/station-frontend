@@ -6,7 +6,8 @@
                 @click="selectTab('Fhir')"
             >
                 <a>
-                    FHIR &nbsp;  <i class="fas fa-fire-alt" />
+                    FHIR
+                    <i class="fas fa-fire-alt" />
                 </a>
             </li>
             <li

@@ -254,7 +254,7 @@
 
 <script>
 
-import { createDockerTrainConfig, getDockerTrainConfigs } from '@/api/dockerTrainsApi';
+import { createDockerTrainConfig, getDockerTrainConfigs } from '@/api/dockerTrains';
 
 export default {
     name: 'ConfigurationTab',

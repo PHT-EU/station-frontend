@@ -176,6 +176,18 @@ import axios from 'axios';
 
 export default {
     name: 'PopUpForm',
+    props: {
+        headerText: {
+            type: String,
+            default: 'Default Header',
+        },
+        formLabels: {
+            type: Array,
+            default: () => ['Add value'],
+        },
+
+
+    },
     emits: ['refresh'],
     data() {
         return {

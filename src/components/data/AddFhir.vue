@@ -22,7 +22,8 @@
                     <table class="table is-fullwidth">
                         <tbody>
                             <tr>
-                                <td> name of the new dataset </td><td>
+                                <td> name of the new dataset</td>
+                                <td>
                                     <input
                                         v-model="newDataSet.name"
                                         class="input is-primary"
@@ -33,7 +34,8 @@
                             </tr>
 
                             <tr>
-                                <td> data type </td><td>
+                                <td> data type</td>
+                                <td>
                                     <input
                                         v-model="newDataSet.dataType"
                                         class="input is-primary"
@@ -44,7 +46,8 @@
                             </tr>
 
                             <tr>
-                                <td> url </td><td>
+                                <td> url</td>
+                                <td>
                                     <input
                                         v-model="newDataSet.accessPath"
                                         class="input is-primary"
@@ -55,7 +58,8 @@
                             </tr>
 
                             <tr>
-                                <td> proposal id </td><td>
+                                <td> proposal id</td>
+                                <td>
                                     <input
                                         v-model.number="newDataSet.proposalId"
                                         class="input is-primary"
@@ -66,7 +70,8 @@
                             </tr>
 
                             <tr>
-                                <td> user of the fhir server </td><td>
+                                <td> user of the fhir server</td>
+                                <td>
                                     <input
                                         v-model="newDataSet.fhirUser"
                                         class="input is-primary"
@@ -77,7 +82,8 @@
                             </tr>
 
                             <tr>
-                                <td> password for the fhir user </td><td>
+                                <td> password for the fhir user</td>
+                                <td>
                                     <input
                                         v-model="newDataSet.fhirPassword"
                                         class="input is-primary"
@@ -88,7 +94,8 @@
                             </tr>
 
                             <tr>
-                                <td> type of fhir server </td><td>
+                                <td> type of fhir server</td>
+                                <td>
                                     <div class="select is-primary">
                                         <select v-model="newDataSet.fhirServerType">
                                             <option
@@ -143,7 +150,8 @@
                             <tr v-if="postNotWorking">
                                 <td>
                                     <p>
-                                        Adding this dataset is not working, the post resulted in following error massage {{ error }}
+                                        Adding this dataset is not working, the post resulted in following error massage
+                                        {{ error }}
                                     </p>
                                 </td>
                             </tr>
@@ -211,25 +219,27 @@ export default {
 </script>
 
 <style scoped>
-.table{
-  align-self: center;
+.table {
+    align-self: center;
 }
-.modal-content{
-  z-index: 9999;
-  position: absolute;
-  margin-top: 20%;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+
+.modal-content {
+    z-index: 9999;
+    position: absolute;
+    margin-top: 20%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
+
 .modal-background {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.2);
-  transition: opacity 0.3s ease;
+    position: fixed;
+    z-index: 9998;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
 }
 </style>
