@@ -29,11 +29,7 @@
         </ul>
     </div>
     <div id="tab-content">
-        <FhirTable
-            v-if="selectedTab==='Fhir'"
-            :table-data="FhirFilter"
-            @refresh="refresh()"
-        />
+        <ServerOverview />
         <CSVTable
             v-if="selectedTab==='CSV'"
             :table-data="CSVFilter"
@@ -62,15 +58,15 @@
 <script>
 import CSVTable from '@/components/data/CSVTable';
 import AddCSV from '@/components/data/AddCSV';
-import FhirTable from '@/components/data/FhirTable';
 import AddFhir from '@/components/data/AddFhir';
 import MinIOTable from '@/components/data/MinIOTable';
 import AddMinIO from '@/components/data/AddMinIO';
+import ServerOverview from '@/components/data/fhir/ServerOverview';
 
 export default {
     name: 'SelectDataType',
     components: {
-        CSVTable, FhirTable, MinIOTable, AddCSV, AddFhir, AddMinIO,
+        CSVTable, ServerOverview, MinIOTable, AddCSV, AddFhir, AddMinIO,
     },
     props: { tableData: Array },
     emits: ['refresh'],
