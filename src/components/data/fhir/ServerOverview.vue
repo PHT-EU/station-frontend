@@ -1,5 +1,7 @@
 <script>
-import { getFHIRServers } from '@/api/fhir';
+import {
+    addFHIRServer, deleteFHIRServer, getFHIRServerSummary, getFHIRServers,
+} from '@/api/fhir';
 
 export default {
     name: 'ServerOverview',
@@ -8,6 +10,10 @@ export default {
         const servers = getFHIRServers();
         return {
             servers,
+            addFHIRServer,
+            deleteFHIRServer,
+            getFHIRServerSummary,
+            getFHIRServers,
         };
     },
 };
@@ -44,13 +50,13 @@ export default {
                 <td>
                     <button
                         class="button is-danger is-outlined "
-                        @click="deleteDataset(row.id)"
+                        @click="deleteFHIRServer(server.id)"
                     >
                         <i class="far fa-trash-alt" />
                     </button>
                     <button
                         class="button is-primary is-outlined "
-                        @click="deleteDataset(row.id)"
+                        @click="getFHIRServerSummary(server.id)"
                     >
                         <i class="fas fa-eye" />
                     </button>
