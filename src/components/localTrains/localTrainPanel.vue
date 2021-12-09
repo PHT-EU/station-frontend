@@ -34,18 +34,20 @@
             </a>
 
             <div class="panel-block">
-                <button
-                    class="button is-link is-outlined is-fullwidth"
-                    @click="buttonEvent('addTrain')"
-                >
-                    Add New Train
-                </button>
-                <button
-                    class="button is-link is-outlined is-fullwidth"
-                    @click="removeTrain()"
-                >
-                    Remove Selected train
-                </button>
+                <div class="buttons">
+                    <button
+                        class="button is-link is-outlined "
+                        @click="buttonEvent('addTrain')"
+                    >
+                        Add New Train
+                    </button>
+                    <button
+                        class="button is-link is-outlined "
+                        @click="removeTrain()"
+                    >
+                        Remove Selected train
+                    </button>
+                </div>
             </div>
         </nav>
     </div>
@@ -122,4 +124,16 @@ export default {
   border-style: solid;
   border-width: 1px;
 }
+.button {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.buttons{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 </style>

@@ -41,7 +41,7 @@
                 @click="selectTab('Logs')"
             >
                 <a>
-                    Logs &nbsp; <i class="fas fa-database" />
+                    Logs &nbsp; <i class="far fa-list-alt" />
                 </a>
             </li>
         </ul>

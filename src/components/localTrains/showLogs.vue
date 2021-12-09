@@ -41,7 +41,9 @@
                         :run-i-d="log.run_id"
                         :train-type="trainType"
                     /> <br>
-                    {{ log.log }}
+                    <div id="log-text">
+                        {{ log.log }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -90,5 +92,7 @@ export default {
 .card{
   margin-top: 10px;
 }
-
+.content{
+    word-break: break-word;
+}
 </style>
