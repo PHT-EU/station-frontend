@@ -44,7 +44,7 @@ export default {
             // eslint-disable-next-line no-restricted-syntax
             for (const runIdIndex in this.run_ids) {
                 const runId = this.run_ids[runIdIndex];
-                const url = `${process.env.VUE_APP_STATION_API}/localTrains/getAirflowRun/${runId}`;
+                const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowRun/${runId}/run_local`;
                 await axios.get(url).then((response) => {
                     const information = response.data;
                     this.run_information_list[information.conf.train_id] = information;

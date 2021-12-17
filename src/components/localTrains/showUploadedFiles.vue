@@ -118,12 +118,12 @@ export default {
     },
     methods: {
         async deleteDataset(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/deleteFile/${this.selectedTrain.train_id}/${file}`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/deleteFile`;
             await axios.delete(url);
             this.files = this.files.filter((item) => item !== file);
         },
         async loadFileNames(train) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllUploadedFileNames/${train.train_id}`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${train.train_id}/getAllUploadedFileNames`;
             await axios.get(url).then((response) => {
                 const data = response.data.files;
                 this.files = [];
@@ -150,20 +150,20 @@ export default {
             this.dropDownDict[file] = !this.dropDownDict[file];
         },
         async addQueryFile(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/addQuery/${this.selectedTrain.train_id}/${file}`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/addQuery`;
             await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
         async addEntrypointFile(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/addEntrypoint/${this.selectedTrain.train_id}/${file}`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/addEntrypoint`;
             await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
         async removePurpose(file) {
             const key = this.getKey(file);
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/RemoveConfigElement/${this.selectedTrain.train_id}/${key}`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${key}/removeConfigElement`;
             await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');

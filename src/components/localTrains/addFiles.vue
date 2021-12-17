@@ -86,7 +86,7 @@ export default {
             console.log(this.files[0]);
             const formData = new FormData();
             formData.append('upload_file', this.files[0]);
-            const postUrl = `${process.env.VUE_APP_STATION_API}/localTrains/uploadTrainFile/${this.selectedTrain.train_id}`;
+            const postUrl = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/uploadTrainFile`;
             await axios.post(
                 postUrl,
                 formData,
