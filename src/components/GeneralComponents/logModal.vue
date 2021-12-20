@@ -59,7 +59,7 @@ export default {
             // {dag_id}/{run_id}/{task_id}/{task_try_number}
             const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowTaskLog/${this.trainType}/${this.runID}/${this.taskID}/1`;
             axios.get(url).then((response) => {
-                this.log = response.data.split(/\r?\n/);
+                this.log = response.data.run_info.split(/\r?\n/);
             });
         },
     },
