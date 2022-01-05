@@ -72,7 +72,7 @@ export default {
     // components: {CircleProgress},
     methods: {
         async getCPUStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/total_cpu_util`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/total_cpu_util`;
 
             axios.get(url).then((response) => {
                 const { data } = response;

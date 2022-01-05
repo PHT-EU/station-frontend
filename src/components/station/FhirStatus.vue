@@ -72,7 +72,7 @@ export default {
     },
     methods: {
         async getFhirStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/fhir`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/fhir`;
             axios.get(url).then((response) => {
                 this.FhirSeverList = response.data;
                 if (this.FhirSeverList.length > 0) {

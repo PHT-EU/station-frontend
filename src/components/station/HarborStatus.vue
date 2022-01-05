@@ -80,7 +80,7 @@ export default {
     },
     methods: {
         async getHarborStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/Harbor`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/Harbor`;
             axios.get(url).then((response) => {
                 if (response.data.status === 'healthy') {
                     this.HarborStatus = true;

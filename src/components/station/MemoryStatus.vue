@@ -68,7 +68,7 @@ export default {
             return (memoryInByte / 10 ** 9).toPrecision(3);
         },
         async getMemoryStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/total_memory_util`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/total_memory_util`;
             axios.get(url).then((response) => {
                 this.MemoryUsagePercent = response.data.percent;
                 this.TotalMemory = this.convertToGB(response.data.total);

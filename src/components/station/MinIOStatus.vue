@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         async getMinIOStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/Minio`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/Minio`;
             axios.get(url).then((response) => {
                 if (response.data.status === 'healthy') {
                     this.MinIOStatus = true;

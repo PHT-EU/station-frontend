@@ -71,7 +71,7 @@ export default {
     },
     methods: {
         async getAirflowStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/Airflow`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/Airflow`;
             axios.get(url).then((response) => {
                 if (response.data.metadatabase.status === 'healthy' && response.data.scheduler.status === 'healthy') {
                     this.AirflowStatus = true;

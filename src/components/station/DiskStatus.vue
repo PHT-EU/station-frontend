@@ -65,7 +65,7 @@ export default {
     },
     methods: {
         async getDiskStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/total_disk_util`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/total_disk_util`;
             axios.get(url).then((response) => {
                 this.DiskUsage = response.data.percent;
                 this.Free = Math.round(response.data.free / 10 ** 9);
