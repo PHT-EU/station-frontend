@@ -31,9 +31,12 @@ export default {
     },
     methods: {
         async runTrain() {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/run`;
-            await axios.post(url).then((response) => {
-                this.run_ids.push(response.data);
+            const url = `${process.env.VUE_APP_STATION_API}/airflow/run_local/run`;
+            const postData = {
+                train_id: this.selectedTrain.train_id,
+            };
+            await axios.post(url, postData).then((response) => {
+                this.run_ids.push(response.data.run_id);
             });
             await this.getRunInformation();
             this.timer = setInterval(this.getRunInformation, 3000);
