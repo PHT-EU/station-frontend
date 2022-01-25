@@ -19,7 +19,7 @@ export default {
                 train_id: this.selectedTrain.train_id,
                 file_name: this.file,
             };
-            const postUrl = `${process.env.VUE_APP_STATION_API}/localTrains/getFile`;
+            const postUrl = `${process.env.VUE_APP_STATION_API}/localTrains/file`;
             console.log(this.file, Data);
             await axios.get(
                 postUrl,

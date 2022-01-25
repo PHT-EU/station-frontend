@@ -70,7 +70,7 @@ export default {
             this.selectedTrain = trainId;
         },
         async loadLocalTrains() {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/getAllLocalTrains`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/trains`;
             await axios.get(url).then((response) => {
                 this.localTrains = response.data;
             });

@@ -73,7 +73,7 @@ export default {
     },
     methods: {
         async getLogs() {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/getLogs`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/logs`;
             axios.get(url).then((response) => {
                 this.logs = response.data;
                 for (let i = 0; i < this.logs.length; i++) {

@@ -118,12 +118,12 @@ export default {
     },
     methods: {
         async deleteDataset(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/deleteFile`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/file`;
             await axios.delete(url);
             this.files = this.files.filter((item) => item !== file);
         },
         async loadFileNames(train) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${train.train_id}/getAllUploadedFileNames`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${train.train_id}/allUploadedFileNames`;
             await axios.get(url).then((response) => {
                 const data = response.data.files;
                 this.files = [];
@@ -156,7 +156,7 @@ export default {
             this.$emit('refresh');
         },
         async addEntrypointFile(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/addEntrypoint`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/entrypoint`;
             await axios.put(url);
             this.dropDownDict[file] = false;
             this.$emit('refresh');
