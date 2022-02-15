@@ -68,7 +68,7 @@ export default {
                 train_id: this.selectedTrain.train_id,
                 image: MasterImage,
             };
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/addMasterImage`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/masterImage`;
             await axios.put(url, Data).then((response) => { console.log(response); });
             this.$emit('refresh');
             this.dropDown = false;

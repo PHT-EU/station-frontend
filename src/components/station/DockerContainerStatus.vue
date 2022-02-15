@@ -19,7 +19,7 @@ export default {
     },
     methods: {
         async getDockerStatus() {
-            const url = `${process.env.VUE_APP_STATION_API}/status/container_resource_util`;
+            const url = `${process.env.VUE_APP_STATION_API}/station/status/container_resource_util`;
             axios.get(url).then((response) => {
                 this.Container = response.data;
             });

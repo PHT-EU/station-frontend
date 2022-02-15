@@ -61,7 +61,7 @@ export default {
 
         getRunInformation() {
             console.log(this.runID);
-            const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowRun/${this.runID}/${this.trainType}`;
+            const url = `${process.env.VUE_APP_STATION_API}/airflow/logs/${this.trainType}/${this.runID}`;
             axios.get(url).then((response) => {
                 this.runInformation = response.data;
                 this.taskList = response.data.tasklist.task_instances;

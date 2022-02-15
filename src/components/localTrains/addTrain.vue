@@ -78,7 +78,7 @@ export default {
         },
         async addTrain() {
             console.log('addTrain');
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/create`;
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains`;
             const postData = {
                 train_name: this.newTrainName,
             };

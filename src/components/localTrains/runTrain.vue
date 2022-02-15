@@ -31,9 +31,12 @@ export default {
     },
     methods: {
         async runTrain() {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/run`;
-            await axios.post(url).then((response) => {
-                this.run_ids.push(response.data);
+            const url = `${process.env.VUE_APP_STATION_API}/airflow/run_local/run`;
+            const postData = {
+                train_id: this.selectedTrain.train_id,
+            };
+            await axios.post(url, postData).then((response) => {
+                this.run_ids.push(response.data.run_id);
             });
             await this.getRunInformation();
             this.timer = setInterval(this.getRunInformation, 3000);
@@ -44,7 +47,7 @@ export default {
             // eslint-disable-next-line no-restricted-syntax
             for (const runIdIndex in this.run_ids) {
                 const runId = this.run_ids[runIdIndex];
-                const url = `${process.env.VUE_APP_STATION_API}/localTrains/getAirflowRun/${runId}`;
+                const url = `${process.env.VUE_APP_STATION_API}/airflow/getAirflowRun/${runId}/run_local`;
                 await axios.get(url).then((response) => {
                     const information = response.data;
                     this.run_information_list[information.conf.train_id] = information;

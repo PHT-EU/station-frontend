@@ -99,7 +99,7 @@ export default {
         },
         async removeTrain() {
             if (this.activeIndex != null) {
-                const url = `${process.env.VUE_APP_STATION_API}/localTrains/deleteTrain/${this.activeTrain}`;
+                const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.activeTrain}/train`;
 
                 await axios.delete(url).then((response) => {
                     console.log(response.data);
