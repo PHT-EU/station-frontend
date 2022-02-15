@@ -130,7 +130,7 @@ export default {
                 // eslint-disable-next-line no-restricted-syntax
                 for (const index in data) {
                     // eslint-disable-next-line no-underscore-dangle
-                    const filename = data[index]._object_name.split('/').slice(1).join('/');
+                    const filename = data[index].object_name.split('/').slice(1).join('/');
                     this.files.push(filename);
                     this.dropDownDict[filename] = false;
                     if (this.selectedTrain.airflow_config_json.query === filename) {
@@ -150,14 +150,22 @@ export default {
             this.dropDownDict[file] = !this.dropDownDict[file];
         },
         async addQueryFile(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/addQuery`;
-            await axios.put(url);
+            const Data = {
+                train_id: this.selectedTrain.train_id,
+                query: file,
+            };
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/query`;
+            await axios.put(url, Data).then((response) => { console.log(response); });
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
         async addEntrypointFile(file) {
-            const url = `${process.env.VUE_APP_STATION_API}/localTrains/${this.selectedTrain.train_id}/${file}/entrypoint`;
-            await axios.put(url);
+            const Data = {
+                train_id: this.selectedTrain.train_id,
+                entrypoint: file,
+            };
+            const url = `${process.env.VUE_APP_STATION_API}/localTrains/entrypoint`;
+            await axios.put(url, Data).then((response) => { console.log(response); });
             this.dropDownDict[file] = false;
             this.$emit('refresh');
         },
